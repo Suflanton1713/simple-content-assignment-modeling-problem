@@ -1,0 +1,14 @@
+A = 30;
+C = 15;
+Iend = 5;
+
+% Opiniones distribuidas aleatoriamente (simulación)
+initialOpinion = [10, 25, 45, 60, 80, 15, 30, 50, 75, 90,
+                  5, 20, 40, 55, 85, 12, 28, 48, 70, 95,
+                  8, 22, 42, 58, 88, 18, 32, 52, 72, 92];
+
+% Terquedad uniforme (media) para observar el movimiento puro
+stubbornness = [60 | i in 1..30];
+
+% Muy poco contenido: solo 15 videos
+contentValue = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 45, 55, 25, 75];

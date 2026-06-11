@@ -1,0 +1,10 @@
+% Benchmark pequeno limpio para modelos epsilon directed.
+A = 5;
+C = 8;
+Iend = 10;
+epsilon = 10;
+target = 50;
+
+initialOpinion = [10, 85, 50, 5, 90];
+stubbornness = [80, 75, 60, 85, 70];
+contentValue = [5, 15, 30, 45, 55, 70, 85, 95];

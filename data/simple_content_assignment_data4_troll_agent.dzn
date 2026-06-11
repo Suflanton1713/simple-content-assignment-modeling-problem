@@ -1,0 +1,10 @@
+A = 4;
+C = 8;
+Iend = 4;
+
+% El Agente 4 es una "piedra" en la opinión 100.
+initialOpinion = [0, 20, 50, 100];
+stubbornness   = [30, 30, 30, 100];
+
+% El contenido debe empujar a los Agentes 1, 2 y 3 hacia el 100.
+contentValue = [70, 80, 85, 90, 95, 98, 99, 100];

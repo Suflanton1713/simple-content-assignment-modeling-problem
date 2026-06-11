@@ -1,0 +1,18 @@
+% ================================================================
+% Datos para simple_content_design_epsilon_consensus.mzn
+% Reto: caso minimo para validar que el modelo corre completo.
+% Hipotesis: debe resolver rapido y disenar pocos contenidos.
+% Peso: 6 agentes, 4 contenidos variables y 8 turnos.
+% ================================================================
+
+A = 6;
+C = 4;
+Iend = 8;
+epsilon = 8;
+target = 50;
+use_target = false;
+min_assign_per_agent = 0;
+max_assign_per_agent = 4;
+
+stubbornness = [20, 25, 30, 20, 25, 30];
+initialOpinion = [10, 15, 20, 80, 85, 90];

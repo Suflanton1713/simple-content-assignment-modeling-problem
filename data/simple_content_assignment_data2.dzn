@@ -1,0 +1,10 @@
+A = 5;
+C = 10;
+Iend = 3;
+
+% Opiniones dispersas pero agentes muy influenciables (Terquedad 10-20)
+initialOpinion = [5, 25, 50, 75, 95];
+stubbornness   = [10, 15, 20, 15, 10];
+
+% El solver elegirá contenidos cercanos a 50 para todos
+contentValue = [40, 42, 45, 48, 50, 52, 55, 58, 60, 100];

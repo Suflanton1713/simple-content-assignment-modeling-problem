@@ -1,0 +1,18 @@
+% ================================================================
+% Datos para simple_content_design_epsilon_consensus.mzn
+% Reto: disenar contenidos para llevar dos grupos extremos a [46,54].
+% Hipotesis: el catalogo optimo deberia incluir valores bajos, medios y altos para mover agentes segun su lado.
+% Peso: 50 agentes, 20 contenidos disenables y 60 turnos.
+% ================================================================
+
+A = 50;
+C = 20;
+Iend = 60;
+epsilon = 4;
+target = 50;
+use_target = true;
+min_assign_per_agent = 0;
+max_assign_per_agent = 12;
+
+stubbornness = [44, 63, 82, 35, 54, 73, 26, 45, 64, 83, 36, 55, 74, 27, 46, 65, 84, 37, 56, 75, 28, 47, 66, 85, 38, 57, 76, 29, 48, 67, 86, 39, 58, 77, 30, 49, 68, 87, 40, 59, 78, 31, 50, 69, 88, 41, 60, 79, 32, 51];
+initialOpinion = [8, 11, 14, 17, 20, 23, 6, 9, 12, 15, 18, 21, 24, 7, 10, 13, 16, 19, 22, 5, 8, 11, 14, 17, 20, 86, 91, 76, 81, 86, 91, 76, 81, 86, 91, 76, 81, 86, 91, 76, 81, 86, 91, 76, 81, 86, 91, 76, 81, 86];

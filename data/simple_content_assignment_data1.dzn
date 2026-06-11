@@ -1,0 +1,14 @@
+A = 3;          % Tres agentes
+C = 6;          % Seis contenidos disponibles
+Iend = 4;       % Cuatro turnos de interacción
+
+% Perfiles de agentes:
+% Agente 1: Muy terco y de "izquierda" (Opinión 10, Terquedad 90)
+% Agente 2: Moderado y muy influenciable (Opinión 45, Terquedad 20)
+% Agente 3: Terco y de "derecha" (Opinión 90, Terquedad 85)
+initialOpinion = [10, 45, 90];
+stubbornness   = [90, 20, 85];
+
+% Pool de contenidos (de 0 a 100):
+% 1-2: Extrema izquierda, 3-4: Centro, 5-6: Extrema derecha
+contentValue = [5, 15, 45, 55, 85, 95];

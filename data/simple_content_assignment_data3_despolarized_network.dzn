@@ -1,0 +1,11 @@
+A = 3;
+C = 6;
+Iend = 6;
+
+% Agentes moderados
+initialOpinion = [45, 50, 55];
+stubbornness   = [50, 50, 50];
+
+% SOLO contenido radical. ¿Cómo mantendrá el consenso?
+% Debería dar un contenido de 0 y luego uno de 100 para promediar.
+contentValue = [0, 5, 10, 90, 95, 100];

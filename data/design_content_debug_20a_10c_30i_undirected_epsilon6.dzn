@@ -1,0 +1,18 @@
+% ================================================================
+% Datos para simple_content_design_epsilon_consensus.mzn
+% Reto: caso pequeno para validar sintaxis y entender la salida.
+% Hipotesis: debe disenar pocos contenidos puente y alcanzar epsilon rapido.
+% Peso: 20 agentes, 10 contenidos variables y 30 turnos.
+% ================================================================
+
+A = 20;
+C = 10;
+Iend = 30;
+epsilon = 6;
+target = 50;
+use_target = false;
+min_assign_per_agent = 0;
+max_assign_per_agent = 8;
+
+stubbornness = [37, 54, 71, 27, 44, 61, 78, 34, 51, 68, 24, 41, 58, 75, 31, 48, 65, 21, 38, 55];
+initialOpinion = [13, 18, 23, 10, 15, 20, 25, 12, 17, 22, 79, 86, 75, 82, 89, 78, 85, 74, 81, 88];

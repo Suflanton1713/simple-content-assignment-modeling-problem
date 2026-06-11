@@ -1,0 +1,22 @@
+% ================================================================
+%  Datos compartidos para ambos modelos epsilon
+%  Cambiar epsilon / target según el modelo que se ejecute
+% ================================================================
+
+A    = 5;
+C    = 8;
+Iend = 10;
+target = 50;
+
+% --- Para Modelo A (no dirigido): solo epsilon
+epsilon = 15;
+
+% --- Para Modelo B (dirigido): epsilon + target
+% epsilon = 10;
+% target  = 50;   % consenso en el centro
+% target  = 30;   % consenso hacia la izquierda
+% target  = 70;   % consenso hacia la derecha
+
+initialOpinion = [10, 85, 50, 5, 90];
+stubbornness   = [80, 75, 60, 85, 70];
+contentValue   = [5, 15, 30, 45, 55, 70, 85, 95];

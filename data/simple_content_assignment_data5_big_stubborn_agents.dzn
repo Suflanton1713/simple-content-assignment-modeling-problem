@@ -1,0 +1,10 @@
+A = 40;
+C = 80;
+Iend = 10;
+
+% Población mayoritariamente radicalizada y muy terca
+initialOpinion = [5  | i in 1..15] ++ [95 | i in 1..15] ++ [50 | i in 1..10];
+stubbornness   = [88 | i in 1..15] ++ [88 | i in 1..15] ++ [20 | i in 1..10];
+
+% Pool de contenidos masivo y variado
+contentValue = [i | i in 1..80];
