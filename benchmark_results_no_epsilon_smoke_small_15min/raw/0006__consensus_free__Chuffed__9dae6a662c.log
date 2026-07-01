@@ -1,0 +1,73 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=2436
+%%%mzn-stat: flatIntVars=1140
+%%%mzn-stat: flatBoolConstraints=876
+%%%mzn-stat: flatIntConstraints=3443
+%%%mzn-stat: evaluatedReifiedConstraints=2016
+%%%mzn-stat: evaluatedHalfReifiedConstraints=708
+%%%mzn-stat: eliminatedImplications=288
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=0.161921
+%%%mzn-stat-end
+minizinc.exe : WARNING: the --time-out flag has recently been changed.The time-out is now provided in milliseconds instead of seconds
+At C:\Users\lialq\OneDrive\Escritorio\Semestre-2026-I\PRACTICA-INV\modelo_simple\tools\run_benchmarks.ps1:134 char:23
++             $output = & $MiniZinc @minizincArgs 2>&1
++                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: the --...tead of seconds:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+% Warning: Unknown or not support variable selection annotation 'dom_w_deg'! Ignore variable selection annotation and replace it by 'input_order'.
+%%%mzn-stat: nodes=10931
+%%%mzn-stat: failures=5924
+%%%mzn-stat: restarts=23
+%%%mzn-stat: variables=85602
+%%%mzn-stat: intVars=1301
+%%%mzn-stat: boolVariables=84299
+%%%mzn-stat: propagators=1906
+%%%mzn-stat: propagations=1298750
+%%%mzn-stat: peakDepth=121
+%%%mzn-stat: nogoods=5924
+%%%mzn-stat: backjumps=2266
+%%%mzn-stat: peakMem=0.00
+%%%mzn-stat: time=0.299
+%%%mzn-stat: initTime=0.092
+%%%mzn-stat: solveTime=0.207
+%%%mzn-stat: objective=2
+%%%mzn-stat: optTime=0.207
+%%%mzn-stat: baseMem=0.00
+%%%mzn-stat: trailMem=0.28
+%%%mzn-stat: randomSeed=1099679058
+%%%mzn-stat-end
+
+Agente 1 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(3): 10	(9): 65	(11): 90	(12): 95	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 2 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(3): 10	(9): 65	(10): 80	(11): 90	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 3 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(3): 10	(2): 5	(10): 80	(11): 90	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 4 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(9): 65	(10): 80	(11): 90	(12): 95	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 5 | (6): 45	(7): 50	(8): 55	(9): 65	(10): 80	(11): 90	(12): 95	(--): N/A	(--): N/A	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 6 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(3): 10	(9): 65	(10): 80	(--): N/A	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 7 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(3): 10	(9): 65	(2): 5	(1): 0	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 8 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(3): 10	(10): 80	(11): 90	(--): N/A	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 9 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(3): 10	(9): 65	(12): 95	(--): N/A	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 10 | (6): 45	(7): 50	(8): 55	(5): 35	(9): 65	(1): 0	(3): 10	(2): 5	(4): 20	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 11 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(3): 10	(9): 65	(11): 90	(12): 95	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 12 | (6): 45	(5): 35	(7): 50	(4): 20	(8): 55	(3): 10	(10): 80	(11): 90	(12): 95	(--): N/A	(--): N/A	(--): N/A	
+
+Opiniones Finales: [51, 51, 52, 50, 50, 51, 51, 50, 50, 52, 51, 50]
+Diferencia de opiniones m├íximas Final: 2
+----------
+==========
+% [obj > 1]
+%%%mzn-stat: nSolutions=1
+%%%mzn-stat-end

@@ -1,0 +1,43 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=624
+%%%mzn-stat: flatIntVars=424
+%%%mzn-stat: flatBoolConstraints=282
+%%%mzn-stat: flatIntConstraints=1019
+%%%mzn-stat: evaluatedReifiedConstraints=528
+%%%mzn-stat: evaluatedHalfReifiedConstraints=192
+%%%mzn-stat: eliminatedImplications=96
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=0.247912
+%%%mzn-stat-end
+minizinc.exe : WARNING: the --time-out flag has recently been changed.The time-out is now provided in milliseconds instead of seconds
+At C:\Users\lialq\OneDrive\Escritorio\Semestre-2026-I\PRACTICA-INV\modelo_simple\tools\run_benchmarks.ps1:134 char:23
++             $output = & $MiniZinc @minizincArgs 2>&1
++                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: the --...tead of seconds:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+%%%mzn-stat: nodes=73
+%%%mzn-stat: failures=40
+%%%mzn-stat: restarts=0
+%%%mzn-stat: variables=34558
+%%%mzn-stat: intVars=482
+%%%mzn-stat: boolVariables=34074
+%%%mzn-stat: propagators=642
+%%%mzn-stat: propagations=16376
+%%%mzn-stat: peakDepth=5
+%%%mzn-stat: nogoods=40
+%%%mzn-stat: backjumps=51
+%%%mzn-stat: peakMem=0.00
+%%%mzn-stat: time=0.031
+%%%mzn-stat: initTime=0.027
+%%%mzn-stat: solveTime=0.004
+%%%mzn-stat: objective=-1
+%%%mzn-stat: optTime=0.000
+%%%mzn-stat: baseMem=0.00
+%%%mzn-stat: trailMem=0.08
+%%%mzn-stat: randomSeed=-1153441258
+%%%mzn-stat-end
+=====UNSATISFIABLE=====
+%%%mzn-stat: nSolutions=0
+%%%mzn-stat-end

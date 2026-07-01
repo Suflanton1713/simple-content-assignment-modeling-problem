@@ -113,9 +113,10 @@
         "data/undirected_epsilon_heavy_200a_100c_100i_gradient.dzn",
         "data/undirected_epsilon_long_100a_100c_300i_sparse_tail.dzn",
         "data/undirected_epsilon_massive_500a_100c_100i_three_blocks.dzn",
-        "data/undirected_epsilon_tight_100a_100c_120i_epsilon2.dzn"
+        "data/undirected_epsilon_tight_100a_100c_120i_epsilon2.dzn",
+        "models/simple_content_assignment_epsilon_consensus_free_chuffed_search.mzn"
     ],
-    "openTab": 43,
+    "openTab": 114,
     "projectFiles": [
         "data/benchmark_epsilon_directed_5a_8c_10i_target50.dzn",
         "data/benchmark_epsilon_free_5a_8c_10i.dzn",
@@ -182,6 +183,7 @@
         "models/simple_content_assignment_epsilon_consensus.mzn",
         "models/simple_content_assignment_epsilon_consensus_directed.mzn",
         "models/simple_content_assignment_epsilon_consensus_directed_optimized.mzn",
+        "models/simple_content_assignment_epsilon_consensus_free_chuffed_search.mzn",
         "models/simple_content_assignment_epsilon_consensus_free_optimized.mzn",
         "models/simple_content_assignment_epsilon_consensus_free_reducing_conntent.mzn",
         "models/simple_content_design_epsilon_consensus.mzn"

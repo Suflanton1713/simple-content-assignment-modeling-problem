@@ -1,0 +1,68 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=2448
+%%%mzn-stat: flatIntVars=1285
+%%%mzn-stat: flatBoolConstraints=852
+%%%mzn-stat: flatIntConstraints=3624
+%%%mzn-stat: evaluatedReifiedConstraints=2160
+%%%mzn-stat: evaluatedHalfReifiedConstraints=576
+%%%mzn-stat: eliminatedImplications=288
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=0.188338
+%%%mzn-stat-end
+minizinc.exe : WARNING: the --time-out flag has recently been changed.The time-out is now provided in milliseconds 
+instead of seconds
+At C:\Users\lialq\OneDrive\Escritorio\Semestre-2026-I\PRACTICA-INV\modelo_simple\tools\run_benchmarks.ps1:152 char:23
++             $output = & $MiniZinc @minizincArgs 2>&1
++                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: the --...tead of seconds:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+%%%mzn-stat: nodes=15540
+%%%mzn-stat: failures=724
+%%%mzn-stat: restarts=68
+%%%mzn-stat: variables=120372
+%%%mzn-stat: intVars=1445
+%%%mzn-stat: boolVariables=118925
+%%%mzn-stat: propagators=1908
+%%%mzn-stat: propagations=2472247
+%%%mzn-stat: peakDepth=88
+%%%mzn-stat: nogoods=724
+%%%mzn-stat: backjumps=11635
+%%%mzn-stat: peakMem=0.00
+%%%mzn-stat: time=0.453
+%%%mzn-stat: initTime=0.121
+%%%mzn-stat: solveTime=0.332
+%%%mzn-stat: objective=12
+%%%mzn-stat: optTime=0.332
+%%%mzn-stat: baseMem=0.00
+%%%mzn-stat: trailMem=0.28
+%%%mzn-stat: randomSeed=1692086545
+%%%mzn-stat-end
+=== EPSILON-CONSENSO DIRIGIDO OPTIMIZADO ===
+A=12 C=12 Iend=12 target=50 epsilon=15
+Banda objetivo: [35,65]
+Asignaciones totales: 12
+Asignaciones por agente: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+Polarizacion final: 30
+Opiniones finales: [38, 50, 64, 35, 50, 55, 45, 48, 65, 40, 48, 63]
+max_diff por turno: [78, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30]
+
+Asignaciones completas:
+Agente 1 | (7):52	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 2 | (6):50	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 3 | (3):30	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 4 | (10):85	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 5 | (6):50	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 6 | (4):42	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 7 | (9):70	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 8 | (6):50	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 9 | (3):30	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 10 | (10):85	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 11 | (6):50	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 12 | (7):52	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+----------
+==========
+% [<UNKNOWN>]
+%%%mzn-stat: nSolutions=1
+%%%mzn-stat-end

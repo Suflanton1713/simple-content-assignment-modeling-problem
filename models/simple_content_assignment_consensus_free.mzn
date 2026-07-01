@@ -67,7 +67,7 @@ constraint forall(t in 1..Iend)(
 var 0..100: obj;
 constraint obj = max_diff[Iend];
 
-constraint opinion[1,Iend] = 20;
+
 
 % 9. dom_w_deg para minimización
 solve :: int_search(

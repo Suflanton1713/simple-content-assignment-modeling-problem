@@ -91,7 +91,7 @@ output [
     "=== EPSILON-CONSENSO NO DIRIGIDO ===\n",
     "Epsilon definido: \(epsilon)\n",
     "Polarización final (max_diff): \(obj)\n",
-    "Consenso alcanzado: " ++ if fix(obj) <= epsilon then "SÍ ✓" else "NO ✗" endif ++ "\n",
+    "Consenso alcanzado: " ++ if fix(obj) <= epsilon then "SÍ" else "NO" endif ++ "\n",
     "Punto de convergencia aprox.: " ++
         show((fix(max(a in AGENT)(opinion[a,Iend])) +
               fix(min(a in AGENT)(opinion[a,Iend]))) div 2) ++ "\n\n"

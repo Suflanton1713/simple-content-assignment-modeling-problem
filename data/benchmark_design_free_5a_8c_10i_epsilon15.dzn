@@ -1,0 +1,17 @@
+% Benchmark pequeno para simple_content_design_epsilon_consensus.mzn
+% Modo no dirigido: el solver disena contenidos para que todos queden dentro de epsilon.
+% Hipotesis: debe escoger un punto comun facil, no necesariamente cercano a 50.
+
+A = 5;
+C = 8;
+Iend = 10;
+
+epsilon = 15;
+target = 50;
+use_target = false;
+
+min_assign_per_agent = 0;
+max_assign_per_agent = 8;
+
+initialOpinion = [10, 85, 50, 5, 90];
+stubbornness = [80, 75, 60, 85, 70];

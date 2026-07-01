@@ -1,0 +1,83 @@
+pages 2
+
+
+--- PAGE 1 ---
+Pra´ctica de Investigacio´n
+Modeling Opinion Polarization and Content Assignment in
+YouTube Using Machine Learning and Optimization
+Escuela de Ingenier´ıa de Sistemas y Computacio´n
+Facultad de Ingenier´ıa
+6 de febrero de 2026
+1. Introduction
+beliefs, reinforcing echo chambers and intensifying polari-
+zation over time. Thus, polarized preferences act as dyna-
+mic weights or constraints that shape the notion of what
+Thisprojectexplorestherelationshipbetweenopinionpo-
+an “optimal” assignment is.
+larization and combinatorial content assignment in online
+Thecentralresearchquestionguidingthisprojectis:Can
+platforms such as YouTube. Modern recommender sys-
+we model how opinion polarization influences the
+tems can be understood as large-scale assignment pro-
+solution of combinatorial content assignment pro-
+blems, where content must be allocated to users in a way
+blems? From a theoretical-experimental perspective, the
+thatmaximizesengagement,satisfaction,ordiversity.Ho-
+project will study how polarized user responses can be in-
+wever, user feedback, expressed through comments, reac-
+corporated into optimization models that assign content
+tions, and interaction patterns can reinforce ideological
+under competing objectives, such as maximizing engage-
+alignment and contribute to polarization. This creates a
+ment versus promoting diversity. Students will analyze
+feedback loop: recommendation influences opinions, opi-
+YouTube comment data to estimate sentiment and ideo-
+nionsshapeinteractions,andinteractionsinfluencefuture
+logical alignment using transformer-based models (e.g.,
+recommendations. Understanding this loop from both a
+BERT/RoBERTa/GPT), and then use these signals to
+machine learning and optimization perspective is an open
+define utility functions within combinatorial assignment
+and relevant research problem.
+formulations such as matching or knapsack-style models.
+To illustrate the core idea, consider a simplified scenario
+Thegoaltounderstandhowpolarizationactsasadynamic
+inspired by social media platforms. Imagine a platform
+constraint that changes what is considered an “optimal”
+with a set of agents (users) who hold diverse political
+assignment.
+opinions, some leaning left, others right, and who exhi-
+bit different levels of stubbornness or confirmation bias.
+The platform manages a collection of content items (news 2. Proposed Activities
+articlesorvideos)withvaryingeditorialorientations:left-
+leaning,right-leaning,andneutral.Thecombinatorialpro- Literature Review (Focused). Review key papers on
+blem consists of assigning a limited number of content related topics (content assignment and polarization).
+slots in each user’s feed in order to maximize a global
+Write a short preliminary state-of-the-art document
+objective, such as total engagement (clicks, views, inter-
+(8–12 pages) summarizing for each paper: Objecti-
+actions) or, alternatively, the diversity of perspectives to
+ve of the model; Main decision variables; Key cons-
+whichusersareexposed.Inthiscontext,polarizationplays
+traints; Solution approach.
+acentralrole:ifthesystemoptimizesonlyforengagement,
+it may repeatedly assign content aligned with each user’s DataCollectionPipeline:useaPROMUEVAyoutube
+1
+
+
+--- PAGE 2 ---
+pipelinetocollectcommentsfromasmallcuratedset
+of videos on potentially polarizing topics.
+Sentiment and Polarization Modeling: use a PRO-
+MUEVA pipeline to derive polarization indicators
+Optimization Prototype: Formulate a small content
+assignment problem as indicated in the introduction
+of this document. Implement a basic matching or
+knapsack model in MiniZinc using data with pola-
+rization indicators.
+Desirable Outcome: Compare assignment outcomes
+under different objectives: Engagement-oriented as-
+signment; Diversity-constrained assignment. Docu-
+ment methodology, experiments, and observations in
+a report.
+2
