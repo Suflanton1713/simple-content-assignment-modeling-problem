@@ -1,1 +1,0 @@
-# simple-content-assignment-modeling-problem

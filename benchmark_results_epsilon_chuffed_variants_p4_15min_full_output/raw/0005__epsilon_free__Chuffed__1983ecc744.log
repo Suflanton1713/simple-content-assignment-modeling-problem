@@ -1,0 +1,44 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=624
+%%%mzn-stat: flatIntVars=424
+%%%mzn-stat: flatBoolConstraints=282
+%%%mzn-stat: flatIntConstraints=1019
+%%%mzn-stat: evaluatedReifiedConstraints=528
+%%%mzn-stat: evaluatedHalfReifiedConstraints=192
+%%%mzn-stat: eliminatedImplications=96
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=0.113413
+%%%mzn-stat-end
+minizinc.exe : WARNING: the --time-out flag has recently been changed.The time-out is now provided in milliseconds instead of seconds
+At C:\Users\lialq\OneDrive\Escritorio\Semestre-2026-I\PRACTICA-INV\modelo_simple\tools\run_benchmarks.ps1:144 char:23
++             $output = & $MiniZinc @minizincArgs 2>&1
++                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: the --...tead of seconds:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+% Warning: Unknown or not support variable selection annotation 'dom_w_deg'! Ignore variable selection annotation and replace it by 'input_order'.
+%%%mzn-stat: nodes=23
+%%%mzn-stat: failures=19
+%%%mzn-stat: restarts=0
+%%%mzn-stat: variables=26158
+%%%mzn-stat: intVars=482
+%%%mzn-stat: boolVariables=25674
+%%%mzn-stat: propagators=642
+%%%mzn-stat: propagations=4947
+%%%mzn-stat: peakDepth=4
+%%%mzn-stat: nogoods=19
+%%%mzn-stat: backjumps=13
+%%%mzn-stat: peakMem=0.00
+%%%mzn-stat: time=0.036
+%%%mzn-stat: initTime=0.035
+%%%mzn-stat: solveTime=0.001
+%%%mzn-stat: objective=-1
+%%%mzn-stat: optTime=0.000
+%%%mzn-stat: baseMem=0.00
+%%%mzn-stat: trailMem=0.05
+%%%mzn-stat: randomSeed=-1919459315
+%%%mzn-stat-end
+=====UNSATISFIABLE=====
+%%%mzn-stat: nSolutions=0
+%%%mzn-stat-end

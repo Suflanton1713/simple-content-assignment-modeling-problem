@@ -1,0 +1,161 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=2436
+%%%mzn-stat: flatIntVars=1139
+%%%mzn-stat: flatBoolConstraints=876
+%%%mzn-stat: flatIntConstraints=3443
+%%%mzn-stat: evaluatedReifiedConstraints=2016
+%%%mzn-stat: evaluatedHalfReifiedConstraints=708
+%%%mzn-stat: eliminatedImplications=288
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=0.167727
+%%%mzn-stat-end
+minizinc.exe : WARNING: the --time-out flag has recently been changed.The time-out is now provided in milliseconds instead of seconds
+At C:\Users\lialq\OneDrive\Escritorio\Semestre-2026-I\PRACTICA-INV\modelo_simple\tools\run_benchmarks.ps1:134 char:23
++             $output = & $MiniZinc @minizincArgs 2>&1
++                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: the --...tead of seconds:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+% Warning: Unknown or not support variable selection annotation 'dom_w_deg'! Ignore variable selection annotation and replace it by 'input_order'.
+% Pruned 49957 learnt clauses
+% Pruned 49954 learnt clauses
+% Pruned 49951 learnt clauses
+% Pruned 49957 learnt clauses
+% Pruned 49952 learnt clauses
+% Pruned 49951 learnt clauses
+% Pruned 49946 learnt clauses
+% Pruned 49948 learnt clauses
+% Pruned 49937 learnt clauses
+% Pruned 49954 learnt clauses
+% Pruned 49950 learnt clauses
+% Pruned 49953 learnt clauses
+% Pruned 49950 learnt clauses
+% Pruned 49942 learnt clauses
+% Pruned 49962 learnt clauses
+% Pruned 49933 learnt clauses
+% Pruned 49934 learnt clauses
+% Pruned 49933 learnt clauses
+% Pruned 49927 learnt clauses
+% Pruned 49929 learnt clauses
+% Pruned 49915 learnt clauses
+% Pruned 49908 learnt clauses
+% Pruned 49901 learnt clauses
+% Pruned 49927 learnt clauses
+% Pruned 49920 learnt clauses
+% Pruned 49942 learnt clauses
+% Pruned 49932 learnt clauses
+% Pruned 49931 learnt clauses
+% Pruned 49930 learnt clauses
+% Pruned 49928 learnt clauses
+% Pruned 49916 learnt clauses
+% Pruned 49924 learnt clauses
+% Pruned 49915 learnt clauses
+% Pruned 49940 learnt clauses
+% Pruned 49939 learnt clauses
+% Pruned 49933 learnt clauses
+% Pruned 49937 learnt clauses
+% Pruned 49935 learnt clauses
+% Pruned 49918 learnt clauses
+% Pruned 49902 learnt clauses
+% Pruned 49905 learnt clauses
+% Pruned 49915 learnt clauses
+% Pruned 49923 learnt clauses
+% Pruned 49931 learnt clauses
+% Pruned 49924 learnt clauses
+% Pruned 49921 learnt clauses
+% Pruned 49919 learnt clauses
+% Pruned 49921 learnt clauses
+% Pruned 49913 learnt clauses
+% Pruned 49939 learnt clauses
+% Pruned 49923 learnt clauses
+% Pruned 49922 learnt clauses
+% Pruned 49913 learnt clauses
+% Pruned 49908 learnt clauses
+% Pruned 49901 learnt clauses
+% Pruned 49917 learnt clauses
+% Pruned 49915 learnt clauses
+% Pruned 49908 learnt clauses
+% Pruned 49905 learnt clauses
+% Pruned 49899 learnt clauses
+% Pruned 49915 learnt clauses
+% Pruned 49936 learnt clauses
+% Pruned 49918 learnt clauses
+% Pruned 49918 learnt clauses
+% Pruned 49934 learnt clauses
+% Pruned 49929 learnt clauses
+% Pruned 49909 learnt clauses
+% Pruned 49914 learnt clauses
+% Pruned 49908 learnt clauses
+% Pruned 49908 learnt clauses
+% Pruned 49894 learnt clauses
+% Pruned 49902 learnt clauses
+% Pruned 49933 learnt clauses
+% Pruned 49917 learnt clauses
+% Pruned 49932 learnt clauses
+% Pruned 49927 learnt clauses
+% Pruned 49923 learnt clauses
+% Pruned 49920 learnt clauses
+% Pruned 49913 learnt clauses
+% Pruned 49919 learnt clauses
+% Pruned 49926 learnt clauses
+% Pruned 49925 learnt clauses
+% Pruned 49921 learnt clauses
+% Pruned 49924 learnt clauses
+% Pruned 49923 learnt clauses
+% Pruned 49921 learnt clauses
+% Pruned 49916 learnt clauses
+%%%mzn-stat: nodes=7014867
+%%%mzn-stat: failures=4437842
+%%%mzn-stat: restarts=16
+%%%mzn-stat: variables=141673
+%%%mzn-stat: intVars=1299
+%%%mzn-stat: boolVariables=140372
+%%%mzn-stat: propagators=1902
+%%%mzn-stat: propagations=2570598445
+%%%mzn-stat: peakDepth=115
+%%%mzn-stat: nogoods=4437842
+%%%mzn-stat: backjumps=2575171
+%%%mzn-stat: peakMem=0.00
+%%%mzn-stat: time=899.939
+%%%mzn-stat: initTime=0.110
+%%%mzn-stat: solveTime=899.829
+%%%mzn-stat: objective=2
+%%%mzn-stat: optTime=133.566
+%%%mzn-stat: baseMem=0.00
+%%%mzn-stat: trailMem=0.28
+%%%mzn-stat: randomSeed=2026718387
+%%%mzn-stat-end
+=== CONSENSUS DIRECTED ===
+Target agente 1: 50
+
+Agente 1 | (6): 50	(5): 48	(7): 52	(4): 42	(8): 58	(3): 30	(12): 8	(2): 15	(9): 70	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 2 | (6): 50	(5): 48	(7): 52	(4): 42	(8): 58	(3): 30	(2): 15	(9): 70	(--): N/A	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 3 | (6): 50	(5): 48	(7): 52	(4): 42	(8): 58	(3): 30	(9): 70	(11): 100	(2): 15	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 4 | (6): 50	(5): 48	(7): 52	(4): 42	(8): 58	(3): 30	(9): 70	(1): 0	(10): 85	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 5 | (6): 50	(5): 48	(7): 52	(4): 42	(8): 58	(3): 30	(9): 70	(10): 85	(2): 15	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 6 | (6): 50	(5): 48	(7): 52	(4): 42	(8): 58	(3): 30	(2): 15	(1): 0	(9): 70	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 7 | (6): 50	(5): 48	(7): 52	(4): 42	(8): 58	(3): 30	(12): 8	(9): 70	(--): N/A	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 8 | (6): 50	(5): 48	(7): 52	(4): 42	(8): 58	(3): 30	(2): 15	(12): 8	(10): 85	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 9 | (6): 50	(5): 48	(9): 70	(11): 100	(10): 85	(4): 42	(7): 52	(3): 30	(--): N/A	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 10 | (2): 15	(7): 52	(6): 50	(4): 42	(12): 8	(1): 0	(8): 58	(5): 48	(11): 100	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 11 | (3): 30	(1): 0	(2): 15	(12): 8	(9): 70	(11): 100	(10): 85	(6): 50	(5): 48	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 12 | (11): 100	(9): 70	(10): 85	(12): 8	(1): 0	(5): 48	(3): 30	(4): 42	(8): 58	(--): N/A	(--): N/A	(--): N/A	
+
+Opiniones Finales: [50, 49, 48, 49, 48, 50, 49, 49, 49, 50, 50, 50]
+Diferencia de opiniones maximas Final: 2
+----------
+% Time limit exceeded!
+%%%mzn-stat: nSolutions=1
+%%%mzn-stat-end

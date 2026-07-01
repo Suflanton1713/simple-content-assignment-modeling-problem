@@ -1,0 +1,35 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=75000
+%%%mzn-stat: flatIntVars=105303
+%%%mzn-stat: flatBoolConstraints=59850
+%%%mzn-stat: flatIntConstraints=165853
+%%%mzn-stat: evaluatedReifiedConstraints=45000
+%%%mzn-stat: evaluatedHalfReifiedConstraints=60000
+%%%mzn-stat: eliminatedImplications=30000
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=8.62549
+%%%mzn-stat-end
+=== EPSILON-CONSENSO NO DIRIGIDO CHUFFED SEARCH ===
+A=150 C=100 Iend=100 epsilon=15
+Polarizacion final: 0
+Asignaciones por agente: [1, 3, 3, 3, 1, 3, 8, 2, 2, 9, 2, 1, 2, 5, 3, 2, 5, 2, 1, 5, 4, 2, 4, 4, 4, 1, 3, 11, 2, 2, 3, 3, 1, 2, 6, 1, 2, 7, 2, 1, 7, 4, 3, 1, 4, 7, 1, 4, 3, 2, 2, 3, 4, 2, 3, 8, 2, 1, 9, 3, 2, 2, 5, 5, 1, 5, 2, 1, 4, 4, 3, 2, 3, 6, 1, 3, 11, 2, 1, 3, 4, 3, 2, 6, 2, 1, 6, 4, 2, 1, 4, 5, 2, 4, 13, 1, 3, 3, 3, 1, 3, 7, 1, 2, 8, 2, 1, 2, 5, 3, 1, 5, 8, 1, 4, 4, 2, 3, 3, 4, 1, 3, 9, 2, 2, 3, 3, 1, 2, 6, 6, 1, 6, 2, 1, 5, 4, 3, 1, 4, 7, 2, 3, 3, 2, 2, 3, 4, 3, 2]
+Opiniones finales: [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+max_diff por turno: [80, 69, 58, 48, 41, 34, 27, 20, 14, 11, 8, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Nota: full_output=false; active full_output=true si necesita la matriz completa.
+----------
+==========
+%%%mzn-stat: initTime=1.42757
+%%%mzn-stat: solveTime=272.908
+%%%mzn-stat: solutions=16
+%%%mzn-stat: variables=180603
+%%%mzn-stat: propagators=225699
+%%%mzn-stat: propagations=40429073
+%%%mzn-stat: nodes=31000
+%%%mzn-stat: failures=9018
+%%%mzn-stat: restarts=31
+%%%mzn-stat: peakDepth=1117
+%%%mzn-stat-end
+%%%mzn-stat: nSolutions=1
+%%%mzn-stat-end

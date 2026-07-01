@@ -1,0 +1,58 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=2448
+%%%mzn-stat: flatIntVars=1285
+%%%mzn-stat: flatBoolConstraints=852
+%%%mzn-stat: flatIntConstraints=3624
+%%%mzn-stat: evaluatedReifiedConstraints=2160
+%%%mzn-stat: evaluatedHalfReifiedConstraints=576
+%%%mzn-stat: eliminatedImplications=288
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=0.156407
+%%%mzn-stat-end
+minizinc.exe : WARNING: the --time-out flag has recently been changed.The time-out is now provided in milliseconds 
+instead of seconds
+At C:\Users\lialq\OneDrive\Escritorio\Semestre-2026-I\PRACTICA-INV\modelo_simple\tools\run_benchmarks.ps1:152 char:23
++             $output = & $MiniZinc @minizincArgs 2>&1
++                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: the --...tead of seconds:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+% Warning: Unknown or not support variable selection annotation 'dom_w_deg'! Ignore variable selection annotation and 
+replace it by 'input_order'.
+%%%mzn-stat: nodes=270
+%%%mzn-stat: failures=25
+%%%mzn-stat: restarts=3
+%%%mzn-stat: variables=117600
+%%%mzn-stat: intVars=1445
+%%%mzn-stat: boolVariables=116153
+%%%mzn-stat: propagators=1908
+%%%mzn-stat: propagations=95664
+%%%mzn-stat: peakDepth=46
+%%%mzn-stat: nogoods=25
+%%%mzn-stat: backjumps=145
+%%%mzn-stat: peakMem=0.00
+%%%mzn-stat: time=0.133
+%%%mzn-stat: initTime=0.117
+%%%mzn-stat: solveTime=0.016
+%%%mzn-stat: objective=21
+%%%mzn-stat: optTime=0.012
+%%%mzn-stat: baseMem=0.00
+%%%mzn-stat: trailMem=0.28
+%%%mzn-stat: randomSeed=-732103285
+%%%mzn-stat-end
+=== EPSILON-CONSENSO DIRIGIDO CHUFFED SEARCH ===
+A=12 C=12 Iend=12 target=25 epsilon=12
+Banda objetivo: [13,37]
+Asignaciones totales: 21
+Asignaciones por agente: [1, 2, 2, 3, 1, 1, 2, 2, 2, 1, 2, 2]
+Polarizacion final: 15
+Opiniones finales: [33, 28, 28, 34, 37, 35, 26, 36, 37, 34, 22, 24]
+max_diff por turno: [26, 26, 19, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
+
+Nota: full_output=false; active full_output=true si necesita la matriz completa.
+----------
+==========
+% [total_assigned > 20]
+%%%mzn-stat: nSolutions=1
+%%%mzn-stat-end

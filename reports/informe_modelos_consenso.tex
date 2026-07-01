@@ -1,0 +1,482 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{titlesec}
+
+\geometry{margin=2.35cm}
+\pgfplotsset{compat=1.18}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!55!black,
+    citecolor=teal!60!black,
+    urlcolor=blue!55!black
+}
+
+\definecolor{paperblue}{HTML}{1F4E79}
+\definecolor{paperteal}{HTML}{2A9D8F}
+\definecolor{paperorange}{HTML}{E76F51}
+\definecolor{papergray}{HTML}{F4F6F8}
+\definecolor{noteyellow}{HTML}{FFF3A3}
+
+\titleformat{\section}{\large\bfseries\color{paperblue}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{paperteal}}{\thesubsection.}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection.}{0.6em}{}
+\setlist[itemize]{leftmargin=1.2em,itemsep=0.2em}
+\setlist[enumerate]{leftmargin=1.4em,itemsep=0.2em}
+
+\newcommand{\agentnote}[1]{%
+\vspace{0.45em}
+\noindent\colorbox{noteyellow}{%
+  \parbox{0.965\linewidth}{\textbf{Pendiente para otro agente:} #1}%
+}
+\vspace{0.45em}
+}
+\newcommand{\modelname}[1]{\texttt{\small #1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1.0cm}
+    {\Large Escuela de Ingenier\'ia de Sistemas y Computaci\'on\par}
+    {\large Facultad de Ingenier\'ia\par}
+    \vspace{2.0cm}
+    {\color{paperblue}\rule{\linewidth}{1.2pt}\par}
+    \vspace{0.8cm}
+    {\Huge\bfseries Modeling Opinion Polarization and Content Assignment in YouTube Using Machine Learning and Optimization\par}
+    \vspace{0.45cm}
+    {\Large Boceto de informe tipo art\'iculo corto\par}
+    \vspace{0.8cm}
+    {\color{paperblue}\rule{\linewidth}{1.2pt}\par}
+    \vspace{1.8cm}
+    \begin{tabular}{ll}
+        \textbf{Integrantes} & \textbf{C\'odigo} \\
+        Libardo Alejandro Quintero G\'omez & 202342181 \\
+        Mar\'ia Juliana Saavedra Torres & 202344035 \\
+        Juan David Rinc\'on L\'opez & \rule{3.2cm}{0.4pt} \\
+    \end{tabular}
+    \vfill
+    {\large Pr\'actica de Investigaci\'on 2026-I\par}
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\begin{abstract}
+Este documento presenta un boceto de informe para el prototipo de asignaci\'on de contenidos con propagaci\'on de opini\'on. El proyecto modela una plataforma tipo YouTube en la que agentes con opiniones iniciales y distintos niveles de terquedad reciben contenidos con orientaci\'on ideol\'ogica. La asignaci\'on modifica la opini\'on mediante una din\'amica inspirada en DeGroot y se estudian variantes de consenso libre, consenso dirigido, consenso con tolerancia \(\epsilon\) y versiones optimizadas para ejecuci\'on con MiniZinc, Chuffed y OR Tools CP-SAT.
+\end{abstract}
+
+\section{Introducci\'on}
+
+Los sistemas de recomendaci\'on modernos pueden verse como problemas de asignaci\'on combinatoria: una plataforma decide qu\'e contenidos mostrar a cada usuario en una secuencia de intervalos para optimizar alg\'un objetivo, como interacci\'on, satisfacci\'on, diversidad o reducci\'on de polarizaci\'on. En plataformas como YouTube, esta decisi\'on no es est\'atica. La exposici\'on a contenidos puede reforzar o mover opiniones, y las opiniones resultantes influyen en interacciones futuras.
+
+El objetivo del proyecto es estudiar c\'omo la polarizaci\'on de opini\'on puede incorporarse en modelos de optimizaci\'on de asignaci\'on de contenido. Para ello se implement\'o una familia de modelos MiniZinc en los que cada agente tiene una opini\'on entera entre \(0\) y \(100\), una terquedad o resistencia al cambio, y recibe a lo largo del tiempo contenidos con valor ideol\'ogico tambi\'en entero entre \(0\) y \(100\). La opini\'on evoluciona por una regla de promedio ponderado inspirada en DeGroot: la opini\'on futura combina la opini\'on actual del agente con el valor del contenido asignado.
+
+El trabajo realizado hasta este punto incluye seis modelos principales:
+
+\begin{itemize}
+    \item Dos modelos sin \(\epsilon\): consenso libre y consenso dirigido.
+    \item Dos modelos con \(\epsilon\) optimizados: consenso libre con banda de tolerancia y consenso dirigido hacia una banda objetivo.
+    \item Dos modelos con \(\epsilon\) mucho m\'as optimizados para b\'usqueda: variantes \textit{Chuffed search} para consenso libre y consenso dirigido.
+\end{itemize}
+
+Adicionalmente existe un modelo base inicial, \modelname{simple\_content\_assignment.mzn}, que se conserva como formulaci\'on m\'as b\'asica del problema, y un modelo de dise\~no de contenidos que no se usa en los benchmarks principales pero permite modelar la elecci\'on o dise\~no de valores de contenido.
+
+\agentnote{Completar esta introducci\'on con una cita formal al documento de la pr\'actica y con referencias bibliogr\'aficas reales sobre recomendadores, polarizaci\'on y modelos de opini\'on tipo DeGroot.}
+
+\section{Estado del arte}
+
+\agentnote{Secci\'on intencionalmente vac\'ia. Agregar 8--12 referencias: sistemas de recomendaci\'on, polarizaci\'on algor\'itmica, DeGroot/Friedkin-Johnsen, asignaci\'on combinatoria, diversidad en recomendaci\'on y optimizaci\'on con restricciones. Para cada paper, resumir objetivo, variables, restricciones y enfoque de soluci\'on.}
+
+\section{Descripci\'on general del problema}
+
+Sea \(A\) el n\'umero de agentes, \(C\) el n\'umero de contenidos disponibles y \(I_{\text{end}}\) la cantidad de intervalos de decisi\'on. En cada intervalo \(t\), el modelo decide para cada agente \(a\) si le asigna un contenido \(c\) o si no le muestra contenido nuevo. La decisi\'on se representa con el valor \(0\) cuando no hay contenido asignado.
+
+La polarizaci\'on en un intervalo se mide como la distancia entre la opini\'on m\'axima y la opini\'on m\'inima de la poblaci\'on:
+
+\[
+\Delta_t = \max_{a \in \mathcal{A}} o_{a,t} - \min_{a \in \mathcal{A}} o_{a,t}.
+\]
+
+La evoluci\'on de opini\'on es entera. Si un agente no recibe contenido, conserva su opini\'on. Si recibe contenido, su opini\'on se actualiza como una combinaci\'on convexa entera:
+
+\[
+o_{a,t} =
+\begin{cases}
+o_{a,t-1}, & x_{a,t}=0,\\[4pt]
+\left\lfloor
+\dfrac{s_a o_{a,t-1} + (100-s_a)v_{x_{a,t}}}{100}
+\right\rfloor, & x_{a,t}\neq 0.
+\end{cases}
+\]
+
+Aqu\'i \(s_a\) es la terquedad del agente y \(v_c\) es el valor ideol\'ogico del contenido \(c\). Como el modelo usa divisi\'on entera por \(100\), el redondeo hacia abajo introduce un error menor que una unidad en la escala \(0\)--\(100\). En otras palabras, el error m\'aximo por actualizaci\'on es \(0.99\) puntos de opini\'on respecto al promedio real continuo.
+
+\section{Conjuntos, par\'ametros y variables}
+
+\subsection{Conjuntos}
+
+\begin{table}[H]
+\centering
+\caption{Conjuntos comunes de los modelos.}
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+\textbf{Conjunto} & \textbf{Significado} \\
+\midrule
+\(\mathcal{A}=1..A\) & Agentes o usuarios de la plataforma. \\
+\(\mathcal{C}=1..C\) & Contenidos disponibles para asignar. \\
+\(\mathcal{C}_0=\mathcal{C}\cup\{0\}\) & Extensi\'on de contenidos con el valor \(0\), que representa no asignar contenido. \\
+\(\mathcal{T}=1..I_{\text{end}}\) & Intervalos de asignaci\'on. \\
+\(\mathcal{S}=0..I_{\text{end}}\) & Estados de opini\'on, incluyendo el estado inicial \(t=0\). \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Par\'ametros}
+
+\begin{table}[H]
+\centering
+\caption{Par\'ametros principales.}
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+\textbf{Par\'ametro} & \textbf{Interpretaci\'on} \\
+\midrule
+\(A,C,I_{\text{end}}\) & Tama\~no de agentes, contenidos e intervalos. En los datos de benchmark se usa \(C=I_{\text{end}}\) salvo casos espec\'ificos, porque si los contenidos se agotan el modelo pierde sentido experimental. \\
+\(s_a \in [0,100]\) & Terquedad del agente \(a\). Un valor alto conserva m\'as la opini\'on anterior; un valor bajo permite mayor influencia del contenido. \\
+\(o^0_a \in [0,100]\) & Opini\'on inicial del agente \(a\). \\
+\(v_c \in [0,100]\) & Valor u orientaci\'on del contenido \(c\). \\
+\(\epsilon\) & Ancho de tolerancia para consenso. En modelos libres se exige \(\Delta_{I_{\text{end}}}\leq \epsilon\); en modelos dirigidos se exige quedar cerca de un objetivo. \\
+\(target\) & Opini\'on objetivo usada en modelos dirigidos. \\
+\texttt{full\_output} & Bandera de salida. Si es verdadera, se imprime la matriz completa de asignaciones; si es falsa, se imprime una salida compacta. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Variables de decisi\'on y auxiliares}
+
+\begin{table}[H]
+\centering
+\caption{Variables y valores auxiliares.}
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+\textbf{Variable} & \textbf{Significado} \\
+\midrule
+\(x_{a,t}\in\mathcal{C}_0\) & Contenido asignado al agente \(a\) en el intervalo \(t\). Si \(x_{a,t}=0\), no hay asignaci\'on. \\
+\(o_{a,t}\in[0,100]\) & Opini\'on entera del agente \(a\) en el estado \(t\). \\
+\(snw_a=100-s_a\) & Peso de influencia del contenido; se precalcula para evitar repetir expresiones. \\
+\(maxOpinion_t\), \(minOpinion_t\) & M\'aximo y m\'inimo de opiniones en el intervalo \(t\). \\
+\(\Delta_t\) o \texttt{max\_diff[t]} & Polarizaci\'on poblacional en el intervalo \(t\). \\
+\texttt{total\_assigned} & N\'umero total de contenidos asignados; usado como objetivo en modelos dirigidos con \(\epsilon\). \\
+\texttt{target\_lo}, \texttt{target\_hi} & L\'imites derivados de la banda dirigida: \(\max(0,target-\epsilon)\) y \(\min(100,target+\epsilon)\). \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Naturaleza matem\'atica}
+
+Los modelos son problemas de programaci\'on con restricciones sobre dominios finitos enteros. Todas las variables de decisi\'on son enteras, por lo que no se trata de un problema mixto con variables continuas. Tampoco se formul\'o como un MIP puro: la presencia de restricciones globales como \texttt{alldifferent\_except\_0}, expresiones \(\max/\min\), implicaciones reificadas, condicionales y divisi\'on entera hace que la formulaci\'on sea naturalmente de \textit{Constraint Programming}. MiniZinc aplana el modelo a FlatZinc y luego el solver aplica su estrategia: Chuffed usa Lazy Clause Generation y OR Tools CP-SAT usa un enfoque SAT/CP con propagaci\'on y b\'usqueda paralela.
+
+\section{Restricciones comunes}
+
+\subsection{Estado inicial}
+
+\[
+o_{a,0}=o^0_a \qquad \forall a\in\mathcal{A}.
+\]
+
+Fija la opini\'on inicial y elimina grados de libertad innecesarios en el primer estado.
+
+\subsection{No repetici\'on de contenido por agente}
+
+\[
+\texttt{alldifferent\_except\_0}(x_{a,1},\ldots,x_{a,I_{\text{end}}}) \qquad \forall a.
+\]
+
+Es una restricci\'on global: obliga a que cada agente no reciba dos veces el mismo contenido real, pero permite repetir el valor \(0\) porque representa ausencia de asignaci\'on. Usarla como global constraint mejora la expresividad y permite al solver aplicar propagadores m\'as fuertes que una descomposici\'on manual por pares.
+
+\subsection{Rango de asignaciones}
+
+Los modelos exigen al menos una asignaci\'on real por agente y varios intervalos sin asignaci\'on. En los modelos optimizados se usan cotas:
+
+\[
+1 \leq \sum_{t\in\mathcal{T}} [x_{a,t}\neq 0] \leq \min(C,I_{\text{end}}-Z_{\min}).
+\]
+
+En consenso libre con \(\epsilon\) se usa \(Z_{\min}=7\); en consenso dirigido con \(\epsilon\), \(Z_{\min}=4\). Estas cotas reducen el dominio y evitan soluciones que saturen todos los intervalos.
+
+\subsection{Simetr\'ia temporal: ceros al final}
+
+\[
+x_{a,t}=0 \Rightarrow x_{a,t+1}=0 \qquad \forall a,\ t<I_{\text{end}}.
+\]
+
+Esta restricci\'on rompe simetr\'ia temporal: una vez aparece un cero, todos los intervalos posteriores quedan en cero. Su prop\'osito es evitar permutaciones equivalentes con ceros intermedios. Debe documentarse con cuidado porque es una optimizaci\'on de b\'usqueda que asume que mover asignaciones hacia intervalos tempranos no cambia la esencia del experimento.
+
+\agentnote{Validar formalmente en el informe final si la restricci\'on de ceros al final es solo ruptura de simetr\'ia o si puede cambiar soluciones cuando el orden temporal del contenido sea interpretado como parte sem\'antica fuerte del problema.}
+
+\subsection{Din\'amica de opini\'on}
+
+La regla de actualizaci\'on implementa una versi\'on entera de influencia social tipo DeGroot, donde la opini\'on siguiente es un promedio ponderado entre opini\'on anterior y valor del contenido. El peso propio del agente es su terquedad \(s_a\); el peso externo es \(100-s_a\). Si no se asigna contenido, la opini\'on no cambia.
+
+\subsection{Polarizaci\'on por intervalo}
+
+\[
+\Delta_t = \max_{a} o_{a,t} - \min_{a} o_{a,t}.
+\]
+
+Los modelos optimizados exponen m\'aximo, m\'inimo y diferencia como variables auxiliares acotadas en \(0..100\). Esto permite reutilizar la polarizaci\'on en restricciones, objetivos y salida.
+
+\subsection{Monotonicidad de polarizaci\'on}
+
+\[
+\Delta_t \leq \Delta_{t-1} \qquad \forall t\in\mathcal{T}.
+\]
+
+La restricci\'on fuerza que la polarizaci\'on no aumente a trav\'es del tiempo. Funciona como criterio de factibilidad y como poda de ramas: si una asignaci\'on temporal incrementa la brecha, se descarta.
+
+\section{Modelos implementados}
+
+\begin{table}[H]
+\centering
+\caption{Familia principal de modelos activos.}
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+\textbf{Archivo} & \textbf{Rol en el proyecto} \\
+\midrule
+\modelname{simple\_content\_assignment.mzn} & Modelo inicial y m\'as b\'asico; se conserva como referencia de la idea original. \\
+\modelname{simple\_content\_assignment\_consensus\_free.mzn} & Sin \(\epsilon\), consenso libre. Minimiza \(\Delta_{I_{\text{end}}}\). \\
+\modelname{simple\_content\_assignment\_consensus\_directed.mzn} & Sin \(\epsilon\), consenso dirigido. A\~nade \(o_{1,I_{\text{end}}}=target\) y minimiza \(\Delta_{I_{\text{end}}}\). \\
+\modelname{simple\_content\_assignment\_epsilon\_consensus\_free\_optimized.mzn} & Con \(\epsilon\), consenso libre. Exige \(\Delta_{I_{\text{end}}}\leq\epsilon\) y minimiza la polarizaci\'on final. \\
+\modelname{simple\_content\_assignment\_epsilon\_consensus\_directed\_optimized.mzn} & Con \(\epsilon\), consenso dirigido. Todos los agentes terminan en \([target-\epsilon,target+\epsilon]\) y se minimiza \texttt{total\_assigned}. \\
+\modelname{simple\_content\_assignment\_epsilon\_consensus\_free\_chuffed\_search.mzn} & Variante m\'as optimizada experimental para b\'usqueda: orden por agente-tiempo, \texttt{dom\_w\_deg}, \texttt{indomain\_min} y \texttt{restart\_luby(100)}. \\
+\modelname{simple\_content\_assignment\_epsilon\_consensus\_directed\_chuffed\_search.mzn} & Variante dirigida equivalente, manteniendo la misma sem\'antica de banda objetivo pero ajustando la estrategia de b\'usqueda. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Consenso libre sin \(\epsilon\)}
+
+El modelo busca reducir la polarizaci\'on final sin imponer una tolerancia fija:
+
+\[
+\min \Delta_{I_{\text{end}}}.
+\]
+
+La salida principal es la asignaci\'on \(x\), las opiniones finales y la diferencia final. Este modelo sirve como referencia para observar hasta d\'onde puede reducirse la polarizaci\'on cuando el solver optimiza directamente la brecha final.
+
+\subsection{Consenso dirigido sin \(\epsilon\)}
+
+Este modelo conserva el objetivo del consenso libre, pero a\~nade una condici\'on dirigida:
+
+\[
+o_{1,I_{\text{end}}}=target.
+\]
+
+La restricci\'on fuerza que el agente de referencia termine exactamente en el objetivo. Es menos flexible que una banda \(\epsilon\), y por eso puede volverse m\'as costoso o incluso infactible en algunos datos.
+
+\subsection{Epsilon consenso libre optimizado}
+
+El modelo introduce una tolerancia expl\'icita:
+
+\[
+\Delta_{I_{\text{end}}}\leq \epsilon,
+\qquad
+\min \Delta_{I_{\text{end}}}.
+\]
+
+La esencia del modelo no cambia respecto a la din\'amica original: los valores de contenido son datos fijos, \(x_{a,t}\) decide contenido o cero, y las opiniones siguen la misma ecuaci\'on entera. Las mejoras se concentran en cotas, simetr\'ia temporal, reutilizaci\'on de conteos, salida compacta y orden de b\'usqueda.
+
+\subsection{Epsilon consenso dirigido optimizado}
+
+La versi\'on dirigida reemplaza la meta de reducir una brecha global por una banda alrededor del objetivo:
+
+\[
+target-\epsilon \leq o_{a,I_{\text{end}}}\leq target+\epsilon
+\qquad \forall a.
+\]
+
+El objetivo es minimizar la cantidad total de contenidos asignados:
+
+\[
+\min \sum_{a\in\mathcal{A}}\sum_{t\in\mathcal{T}} [x_{a,t}\neq 0].
+\]
+
+Esto responde a una pregunta distinta: cu\'anta intervenci\'on m\'inima necesita la plataforma para llevar a todos los agentes a una banda objetivo.
+
+\subsection{Variantes m\'as optimizadas con \textit{search}}
+
+Las variantes \modelname{\*\_chuffed\_search.mzn} mantienen la esencia matem\'atica de sus respectivos modelos con \(\epsilon\), pero cambian anotaciones de b\'usqueda:
+
+\begin{itemize}
+    \item \texttt{restart\_luby(100)} para reinicios peri\'odicos en b\'usquedas largas.
+    \item \texttt{dom\_w\_deg} para priorizar variables con dominios peque\~nos y mayor historial de conflicto.
+    \item \texttt{indomain\_min} para probar valores bajos primero.
+    \item Orden de variables por agente y luego tiempo, en contraste con algunas variantes optimizadas que deciden por tiempo y luego agente.
+\end{itemize}
+
+Aunque el nombre dice Chuffed, estas variantes tambi\'en fueron ejecutadas con OR Tools CP-SAT mediante MiniZinc, y en varios benchmarks medianos/grandes OR Tools produjo resultados m\'as estables.
+
+\section{Solvers y configuraci\'on experimental}
+
+Se usaron principalmente dos solvers:
+
+\begin{itemize}
+    \item \textbf{Chuffed 0.13.2}: solver CP con Lazy Clause Generation. Fue r\'apido en instancias peque\~nas y algunas medianas, pero se ralentiz\'o mucho en casos grandes.
+    \item \textbf{OR Tools CP-SAT 9.15}: solver CP-SAT con mejor aprovechamiento de paralelismo en varias corridas. Se us\'o con \texttt{-Parallel 8} en los benchmarks medianos y grandes m\'as relevantes.
+\end{itemize}
+
+Los tiempos l\'imite variaron entre \(15\) y \(30\) minutos por instancia. En las pruebas con \texttt{stress500} se intentaron ejecuciones largas; se report\'o que al menos una tanda qued\'o esperando cerca de tres horas sin producir resultado \'util.
+
+\section{Datos de prueba}
+
+\agentnote{Completar esta secci\'on con una tabla por carpeta de datos: \texttt{consensus\_free}, \texttt{consensus\_directed}, \texttt{epsilon\_free}, \texttt{epsilon\_directed}, \texttt{design\_free} y \texttt{design\_directed}. Incluir para cada una: tama\~nos smoke/small/medium/large/xlarge/massive/stress500, escenarios balanced\_bimodal, three\_clusters, high\_stubborn, target25\_downshift y target75\_upshift, valores de \(\epsilon\), target y criterio de generaci\'on de opiniones/contenidos.}
+
+En general, los datasets se organizaron por tipo de modelo y tama\~no:
+
+\begin{table}[H]
+\centering
+\caption{Escalas de benchmark preparadas.}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Tama\~no} & \textbf{Agentes} & \textbf{Intervalos} & \textbf{Contenidos} \\
+\midrule
+smoke & 6 & 8 & 8 \\
+small & 12 & 12 & 12 \\
+medium & 30 & 30 & 30 \\
+large & 75 & 75 & 75 \\
+xlarge & 150 & 100 & 100 \\
+massive & 300 & 150 & 150 \\
+stress500 & 500 & 100 & 100 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Resultados preliminares}
+
+Los resultados siguientes son preliminares y provienen de los \texttt{summary.csv} generados por los benchmarks. El estado \textit{optimal\_or\_complete} indica que MiniZinc report\'o terminaci\'on satisfactoria u optimalidad seg\'un la salida del solver; \textit{solution\_or\_timeout} indica que hubo soluci\'on, pero se alcanz\'o el l\'imite; \textit{error} corresponde a terminaciones sin soluci\'on utilizable o fallos del backend.
+
+\begin{table}[H]
+\centering
+\caption{Cobertura efectiva por familia de modelos.}
+\begin{tabularx}{\linewidth}{lYYYY}
+\toprule
+\textbf{Modelo} & \textbf{Smoke} & \textbf{Small} & \textbf{Medium} & \textbf{Large o m\'as} \\
+\midrule
+Consenso libre sin \(\epsilon\) & 3/3 exitosos & 3/3 exitosos & 0/3 con Gecode a 15 min & Pendiente \\
+Consenso dirigido sin \(\epsilon\) & 3/3 exitosos & 2/3 exitosos; 1 con timeout y soluci\'on & Pendiente & Pendiente \\
+\(\epsilon\) libre optimizado & 1/3 exitoso; 2 infactibles & 3/3 exitosos & 3/3 exitosos con Chuffed & Pendiente \\
+\(\epsilon\) dirigido optimizado & 3/3 exitosos & 3/3 exitosos & 3/3 exitosos con OR Tools & Pendiente \\
+\(\epsilon\) libre search & 1/3 exitoso; 2 infactibles & 3/3 exitosos & 3/3 exitosos con OR Tools & large 3/3 exitosos; xlarge/massive con error \\
+\(\epsilon\) dirigido search & Pendiente & Pendiente & 3/3 exitosos con OR Tools & large 3/3 exitosos con OR Tools; xlarge/massive/stress500 pendientes \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Resultados destacados con tiempos de pared.}
+\begin{tabularx}{\linewidth}{l l l r l}
+\toprule
+\textbf{Modelo} & \textbf{Solver} & \textbf{Escenario} & \textbf{Tiempo (s)} & \textbf{Estado} \\
+\midrule
+\(\epsilon\) dirigido optimizado, medium & OR Tools CP-SAT, p8 & three\_clusters & 16.34 & exitoso \\
+\(\epsilon\) dirigido optimizado, medium & OR Tools CP-SAT, p8 & target25\_downshift & 18.48 & exitoso \\
+\(\epsilon\) dirigido optimizado, medium & OR Tools CP-SAT, p8 & target75\_upshift & 16.88 & exitoso \\
+\(\epsilon\) libre search, large & OR Tools CP-SAT, p8 & balanced\_bimodal & 273.44 & exitoso \\
+\(\epsilon\) libre search, large & OR Tools CP-SAT, p8 & three\_clusters & 224.16 & exitoso \\
+\(\epsilon\) libre search, large & OR Tools CP-SAT, p8 & high\_stubborn & 289.70 & exitoso \\
+\(\epsilon\) dirigido search, large & OR Tools CP-SAT, p8 & three\_clusters & 155.30 & exitoso \\
+\(\epsilon\) dirigido search, large & OR Tools CP-SAT, p8 & target25\_downshift & 262.15 & exitoso \\
+\(\epsilon\) dirigido search, large & OR Tools CP-SAT, p8 & target75\_upshift & 255.87 & exitoso \\
+\(\epsilon\) libre search, xlarge & OR Tools CP-SAT, p8 & tres escenarios & 369.94--628.42 & error \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    width=0.88\linewidth,
+    height=6.0cm,
+    ylabel={Tiempo (s)},
+    symbolic x coords={Dir. opt. medium, Free search large, Dir. search large},
+    xtick=data,
+    nodes near coords,
+    nodes near coords align={vertical},
+    ymin=0,
+    ymax=320,
+    bar width=18pt,
+    enlarge x limits=0.25,
+    grid=major,
+    grid style={papergray}
+]
+\addplot[fill=paperteal!75] coordinates {
+    (Dir. opt. medium,17.23)
+    (Free search large,262.43)
+    (Dir. search large,224.44)
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Promedio aproximado de tiempo en grupos de benchmarks exitosos con OR Tools CP-SAT p8.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.88\linewidth,
+    height=6.0cm,
+    xlabel={Escala},
+    ylabel={Estado relativo},
+    symbolic x coords={smoke,small,medium,large,xlarge,massive,stress500},
+    xtick=data,
+    ymin=0,
+    ymax=4,
+    ytick={0,1,2,3},
+    yticklabels={pendiente/error,parcial,ejecutado,exitoso},
+    grid=major,
+    legend pos=south east
+]
+\addplot[color=paperblue,mark=*] coordinates {(smoke,3) (small,3) (medium,3) (large,0) (xlarge,0) (massive,0) (stress500,0)};
+\addlegendentry{\(\epsilon\) dirigido optimizado}
+\addplot[color=paperorange,mark=square*] coordinates {(smoke,1) (small,3) (medium,3) (large,3) (xlarge,0) (massive,0) (stress500,0)};
+\addlegendentry{\(\epsilon\) libre search}
+\addplot[color=paperteal,mark=triangle*] coordinates {(smoke,0) (small,0) (medium,3) (large,3) (xlarge,0) (massive,0) (stress500,0)};
+\addlegendentry{\(\epsilon\) dirigido search}
+\end{axis}
+\end{tikzpicture}
+\caption{Mapa preliminar de avance experimental por escala.}
+\end{figure}
+
+\agentnote{Actualizar las tablas cuando se ejecuten large, xlarge, massive y stress500. Separar claramente resultados con Chuffed 0.13.2 y OR Tools CP-SAT 9.15, e indicar si cada fila fue corrida con salida completa de asignaciones o salida compacta.}
+
+\section{Discusi\'on preliminar}
+
+Los modelos peque\~nos son manejables con Chuffed y permiten verificar que la formulaci\'on produce asignaciones, opiniones finales y trayectorias de polarizaci\'on consistentes. En instancias medianas, OR Tools CP-SAT con paralelismo produjo tiempos m\'as estables para las variantes con \(\epsilon\), especialmente en los modelos dirigidos. En instancias grandes, las variantes \textit{search} con OR Tools alcanzaron resultados exitosos para \(75\) agentes e intervalos, pero los intentos xlarge y massive del modelo \(\epsilon\) libre terminaron con error antes del l\'imite de \(30\) minutos. Las pruebas stress500 siguen abiertas y deben tratarse como experimentos de escalabilidad, no como casos esperados de resoluci\'on inmediata.
+
+\section{Conclusiones preliminares}
+
+El proyecto logr\'o construir una familia coherente de modelos de asignaci\'on de contenido con propagaci\'on de opini\'on. La formulaci\'on combina una din\'amica tipo DeGroot con restricciones de asignaci\'on, no repetici\'on, monotonicidad de polarizaci\'on y metas de consenso libre o dirigido. Los modelos con \(\epsilon\) permiten expresar tolerancias realistas y comparar entre reducir polarizaci\'on global y conducir la poblaci\'on hacia una banda objetivo.
+
+Desde el punto de vista computacional, las mejoras m\'as relevantes han sido acotar dominios, usar restricciones globales, compactar salida, romper simetr\'ias temporales y ajustar estrategias de b\'usqueda. Aun as\'i, el crecimiento a xlarge, massive y stress500 muestra que el problema escala de forma agresiva y requiere experimentaci\'on adicional con datos, estrategias de b\'usqueda, solver y criterios de parada.
+
+\agentnote{Antes de entregar el informe final, agregar: estado del arte completo, explicaci\'on detallada del generador de datos, tablas autom\'aticas desde los CSV finales, gr\'aficas con todos los benchmarks, referencias BibTeX, y una validaci\'on de que la restricci\'on de ceros al final no cambia la pregunta experimental que se quiere responder.}
+
+\end{document}

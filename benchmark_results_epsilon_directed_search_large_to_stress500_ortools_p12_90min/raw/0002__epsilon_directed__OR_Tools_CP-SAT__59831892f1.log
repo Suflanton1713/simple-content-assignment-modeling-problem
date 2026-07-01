@@ -1,0 +1,32 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=28125
+%%%mzn-stat: flatIntVars=39604
+%%%mzn-stat: flatBoolConstraints=22425
+%%%mzn-stat: flatIntConstraints=62404
+%%%mzn-stat: evaluatedReifiedConstraints=16875
+%%%mzn-stat: evaluatedHalfReifiedConstraints=22500
+%%%mzn-stat: eliminatedImplications=11250
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=2.89841
+%%%mzn-stat-end
+=== EPSILON-CONSENSO DIRIGIDO CHUFFED SEARCH ===
+A=75 C=75 Iend=75 target=25 epsilon=10
+Banda objetivo: [15,35]
+Asignaciones totales: 162
+Asignaciones por agente: [2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2]
+Polarizacion final: 18
+Opiniones finales: [17, 24, 25, 27, 17, 17, 22, 34, 35, 17, 18, 20, 32, 34, 17, 17, 19, 29, 31, 17, 17, 25, 26, 29, 17, 17, 23, 35, 26, 17, 17, 21, 33, 33, 17, 17, 19, 30, 32, 17, 18, 25, 27, 29, 18, 17, 24, 25, 27, 17, 17, 22, 34, 34, 17, 18, 20, 31, 33, 17, 17, 19, 29, 31, 17, 17, 24, 26, 28, 17, 17, 22, 35, 26, 17]
+max_diff por turno: [30, 30, 30, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18]
+
+Nota: full_output=false; active full_output=true si necesita la matriz completa.
+----------
+==========
+%%%mzn-stat: objective=162
+%%%mzn-stat: objectiveBound=162
+%%%mzn-stat: boolVariables=2055391
+%%%mzn-stat: failures=205
+%%%mzn-stat: propagations=383535950
+%%%mzn-stat: solveTime=314.161
+%%%mzn-stat: nSolutions=1
+%%%mzn-stat-end

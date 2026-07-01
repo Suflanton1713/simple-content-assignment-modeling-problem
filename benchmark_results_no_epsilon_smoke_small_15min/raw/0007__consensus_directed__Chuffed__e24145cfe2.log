@@ -1,0 +1,63 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=618
+%%%mzn-stat: flatIntVars=375
+%%%mzn-stat: flatBoolConstraints=294
+%%%mzn-stat: flatIntConstraints=953
+%%%mzn-stat: evaluatedReifiedConstraints=480
+%%%mzn-stat: evaluatedHalfReifiedConstraints=234
+%%%mzn-stat: eliminatedImplications=96
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=0.0980568
+%%%mzn-stat-end
+minizinc.exe : WARNING: the --time-out flag has recently been changed.The time-out is now provided in milliseconds instead of seconds
+At C:\Users\lialq\OneDrive\Escritorio\Semestre-2026-I\PRACTICA-INV\modelo_simple\tools\run_benchmarks.ps1:134 char:23
++             $output = & $MiniZinc @minizincArgs 2>&1
++                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: the --...tead of seconds:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+% Warning: Unknown or not support variable selection annotation 'dom_w_deg'! Ignore variable selection annotation and replace it by 'input_order'.
+%%%mzn-stat: nodes=595
+%%%mzn-stat: failures=169
+%%%mzn-stat: restarts=10
+%%%mzn-stat: variables=35116
+%%%mzn-stat: intVars=434
+%%%mzn-stat: boolVariables=34680
+%%%mzn-stat: propagators=638
+%%%mzn-stat: propagations=40130
+%%%mzn-stat: peakDepth=38
+%%%mzn-stat: nogoods=169
+%%%mzn-stat: backjumps=63
+%%%mzn-stat: peakMem=0.00
+%%%mzn-stat: time=0.044
+%%%mzn-stat: initTime=0.037
+%%%mzn-stat: solveTime=0.007
+%%%mzn-stat: objective=0
+%%%mzn-stat: optTime=0.007
+%%%mzn-stat: baseMem=0.00
+%%%mzn-stat: trailMem=0.08
+%%%mzn-stat: randomSeed=-1959631670
+%%%mzn-stat-end
+=== CONSENSUS DIRECTED ===
+Target agente 1: 50
+
+Agente 1 | (4): 48	(3): 42	(1): 0	(5): 52	(6): 58	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 2 | (4): 48	(3): 42	(2): 15	(5): 52	(6): 58	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 3 | (4): 48	(3): 42	(1): 0	(2): 15	(7): 85	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 4 | (4): 48	(3): 42	(5): 52	(2): 15	(8): 100	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 5 | (4): 48	(3): 42	(5): 52	(6): 58	(--): N/A	(--): N/A	(--): N/A	(--): N/A	
+
+Agente 6 | (4): 48	(1): 0	(3): 42	(6): 58	(--): N/A	(--): N/A	(--): N/A	(--): N/A	
+
+Opiniones Finales: [50, 50, 50, 50, 50, 50]
+Diferencia de opiniones maximas Final: 0
+----------
+==========
+% [<UNKNOWN>]
+%%%mzn-stat: nSolutions=1
+%%%mzn-stat-end

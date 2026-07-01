@@ -263,28 +263,54 @@ solve :: seq_search([
 % -------------------------
 % Salida
 % -------------------------
-
 output [
     "=== DISENO OPTIMO DE CONTENIDOS PARA EPSILON-CONSENSO ===\n",
     "Modo: " ++ if use_target then "DIRIGIDO" else "NO DIRIGIDO" endif ++ "\n",
-    "A=" ++ show(A) ++ " C=" ++ show(C) ++ " Iend=" ++ show(Iend) ++ " epsilon=" ++ show(epsilon) ++ "\n",
-    if use_target then "Target=" ++ show(target) ++ " banda=[" ++ show(target_lo) ++ "," ++ show(target_hi) ++ "]\n" else "" endif,
-    "Turnos antes del consenso: " ++ show(turns_before_consensus) ++ "\n",
-    "Asignaciones totales: " ++ show(total_assigned) ++ "\n",
+    "Agentes: " ++ show(A) ++ "\n",
+    "Contenidos disponibles para disenar: " ++ show(C) ++ "\n",
+    "Intervalos maximos: " ++ show(Iend) ++ "\n",
+    "Epsilon: " ++ show(epsilon) ++ "\n",
+    if use_target then
+        "Target: " ++ show(target) ++ "\n" ++
+        "Banda objetivo: [" ++ show(target_lo) ++ ", " ++ show(target_hi) ++ "]\n"
+    else
+        "Consenso no dirigido: los agentes pueden converger a cualquier punto comun.\n"
+    endif,
+    "\n",
+    "--- RESUMEN DE OPTIMIZACION ---\n",
+    "Turnos antes de alcanzar consenso: " ++ show(turns_before_consensus) ++ "\n",
+    "Asignaciones totales realizadas: " ++ show(total_assigned) ++ "\n",
     "Contenidos distintos usados: " ++ show(distinct_contents) ++ "\n",
     "Error final: " ++ show(final_error) ++ "\n",
-    "Catalogo disenado: " ++ show(contentValue) ++ "\n",
-    "Contenidos usados: " ++ show([contentValue[c] | c in CONTENT where fix(content_used[c])]) ++ "\n",
-    "Opiniones finales: " ++ show([opinion[a,Iend] | a in AGENT]) ++ "\n",
-    "max_diff por turno: " ++ show(max_diff) ++ "\n\n",
-    "Asignaciones por agente:\n"
+    "Polarizacion final max_diff[Iend]: " ++ show(max_diff[Iend]) ++ "\n",
+    "\n",
+    "--- CONTENIDOS DISENADOS ---\n",
+    "Catalogo completo disenado:\n",
+    show(contentValue) ++ "\n",
+    "Contenidos efectivamente usados:\n",
+    show([contentValue[c] | c in CONTENT where fix(content_used[c])]) ++ "\n",
+    "\n",
+    "--- OPINIONES ---\n",
+    "Opiniones iniciales:\n",
+    show(initialOpinion) ++ "\n",
+    "Opiniones finales:\n",
+    show([opinion[a,Iend] | a in AGENT]) ++ "\n",
+    "max_diff por turno:\n",
+    show(max_diff) ++ "\n",
+    "\n",
+    "--- ASIGNACIONES POR AGENTE ---\n"
 ] ++ [
-    "Agente " ++ show(a) ++ " | " ++
+    "Agente " ++ show(a) ++
+    " | inicial=" ++ show(initialOpinion[a]) ++
+    " | final=" ++ show(opinion[a,Iend]) ++
+    " | asignaciones: " ++
     concat([
         if fix(assignment[a,t]) = 0 then
-            "(--):NA\t"
+            "t" ++ show(t) ++ "=(--):NA  "
         else
-            "(" ++ show(fix(assignment[a,t])) ++ "):" ++ show(fix(contentValue[fix(assignment[a,t])])) ++ "\t"
+            "t" ++ show(t) ++ "=(" ++
+            show(fix(assignment[a,t])) ++ "):" ++
+            show(fix(contentValue[fix(assignment[a,t])])) ++ "  "
         endif
         | t in TIME
     ]) ++ "\n"

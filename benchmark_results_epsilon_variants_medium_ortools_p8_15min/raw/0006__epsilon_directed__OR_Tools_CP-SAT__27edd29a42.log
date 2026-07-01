@@ -1,0 +1,62 @@
+﻿% Generated FlatZinc statistics:
+%%%mzn-stat: paths=0
+%%%mzn-stat: flatBoolVars=4500
+%%%mzn-stat: flatIntVars=6394
+%%%mzn-stat: flatBoolConstraints=3570
+%%%mzn-stat: flatIntConstraints=10114
+%%%mzn-stat: evaluatedReifiedConstraints=2700
+%%%mzn-stat: evaluatedHalfReifiedConstraints=3600
+%%%mzn-stat: eliminatedImplications=1800
+%%%mzn-stat: method="minimize"
+%%%mzn-stat: flatTime=0.53591
+%%%mzn-stat-end
+=== EPSILON-CONSENSO DIRIGIDO CHUFFED SEARCH ===
+A=30 C=30 Iend=30 target=75 epsilon=10
+Banda objetivo: [65,85]
+Asignaciones totales: 58
+Asignaciones por agente: [2, 2, 3, 3, 1, 2, 2, 2, 3, 1, 1, 2, 2, 4, 1, 1, 2, 2, 2, 1, 1, 1, 2, 3, 1, 2, 2, 3, 3, 1]
+Polarizacion final: 1
+Opiniones finales: [66, 65, 65, 65, 65, 66, 65, 65, 65, 65, 65, 65, 65, 65, 65, 66, 65, 65, 65, 65, 65, 66, 65, 65, 65, 66, 65, 65, 65, 66]
+max_diff por turno: [34, 34, 32, 15, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+Asignaciones completas:
+Agente 1 | (14):45	(28):93	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 2 | (12):38	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 3 | (22):72	(20):66	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 4 | (25):83	(26):86	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 5 | (25):83	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 6 | (16):52	(28):93	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 7 | (15):48	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 8 | (18):59	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 9 | (25):83	(29):97	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 10 | (26):86	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 11 | (26):86	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 12 | (17):55	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 13 | (21):69	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 14 | (29):97	(12):38	(28):93	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 15 | (27):90	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 16 | (28):93	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 17 | (19):62	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 18 | (25):83	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 19 | (28):93	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 20 | (28):93	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 21 | (29):97	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 22 | (29):97	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 23 | (28):93	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 24 | (14):45	(29):97	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 25 | (29):97	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 26 | (14):45	(28):93	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 27 | (12):38	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 28 | (22):72	(20):66	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 29 | (19):62	(29):97	(30):100	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+Agente 30 | (25):83	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	(--):NA	
+----------
+==========
+%%%mzn-stat: objective=58
+%%%mzn-stat: objectiveBound=58
+%%%mzn-stat: boolVariables=89730
+%%%mzn-stat: failures=2
+%%%mzn-stat: propagations=4165038
+%%%mzn-stat: solveTime=16.6086
+%%%mzn-stat: nSolutions=1
+%%%mzn-stat-end

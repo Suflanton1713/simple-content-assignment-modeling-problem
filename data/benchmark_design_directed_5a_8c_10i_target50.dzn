@@ -1,0 +1,17 @@
+% Benchmark pequeno para simple_content_design_epsilon_consensus.mzn
+% Modo dirigido: el solver disena los valores de contenido y decide asignaciones.
+% Hipotesis: debe crear pocos contenidos para llevar todos los agentes a [40,60].
+
+A = 5;
+C = 8;
+Iend = 10;
+
+epsilon = 10;
+target = 50;
+use_target = true;
+
+min_assign_per_agent = 0;
+max_assign_per_agent = 8;
+
+initialOpinion = [10, 85, 50, 5, 90];
+stubbornness = [80, 75, 60, 85, 70];
