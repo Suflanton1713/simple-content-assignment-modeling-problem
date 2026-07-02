@@ -210,6 +210,42 @@ target25_downshift / target25
 target75_upshift / target75
 ```
 
+## Organizacion actual de resultados de benchmarks
+
+Los resultados historicos ya no estan sueltos en la raiz del proyecto. Fueron movidos a:
+
+```text
+benchmark_results_archive/
+```
+
+La organizacion actual es:
+
+```text
+benchmark_results_archive/
+  no_epsilon/          Resultados de consensus_free y consensus_directed.
+  epsilon_free/        Resultados especificos de epsilon_free.
+  epsilon_directed/    Resultados especificos de epsilon_directed.
+  epsilon_mixed/       Corridas mixtas o comparativas con varias suites/modelos.
+  failed_or_incomplete/Reservado para corridas incompletas futuras.
+  misc/                Resultados genericos o antiguos sin familia clara.
+  debug/               Logs manuales debug_*.log.
+```
+
+Para analizar los resultados existentes, buscar `summary.csv` de forma recursiva:
+
+```powershell
+Get-ChildItem benchmark_results_archive -Recurse -Filter summary.csv
+```
+
+O con Python:
+
+```python
+from pathlib import Path
+summaries = list(Path("benchmark_results_archive").glob("**/summary.csv"))
+```
+
+Los nuevos benchmarks pueden seguir escribiendose en la raiz con `-ResultsDir`, y luego moverse a la familia correspondiente dentro de `benchmark_results_archive/`.
+
 ## Script de benchmarks
 
 El runner principal es:
@@ -238,13 +274,13 @@ Importante: `-TimeLimitMs` es por cada combinacion ejecutada, no para todo el co
 suite + data + model + solver
 ```
 
-Los logs siempre se guardan en:
+Los logs de una corrida nueva siempre se guardan en:
 
 ```text
 <ResultsDir>/raw/
 ```
 
-El resumen se guarda en:
+El resumen de una corrida nueva se guarda en:
 
 ```text
 <ResultsDir>/summary.csv
@@ -323,7 +359,7 @@ eso significa que no hubo solucion util devuelta. No significa que el modelo sea
 
 ## Resultados consolidados
 
-Snapshot al momento de crear este archivo:
+Snapshot al momento de crear este archivo. Despues de reorganizar carpetas, estos `summary.csv` estan bajo `benchmark_results_archive/**/summary.csv`:
 
 ```text
 summary.csv encontrados: 18
@@ -774,4 +810,3 @@ Si solo se necesita continuar benchmarks:
 5. No usar las variantes `propagation` ni `gecode_search`; fueron eliminadas.
 6. No activar `FullOutput` en grandes.
 7. Revisar siempre `summary.csv` y luego `raw/*.log` si hay dudas.
-
