@@ -4,7 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[spanish,es-tabla]{babel}
 \usepackage{geometry}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -53,7 +53,9 @@
 
 \begin{titlepage}
     \centering
-    \vspace*{1.0cm}
+    \vspace*{0.5cm}
+    \includegraphics[width=4cm]{univalle.png}\par
+    \vspace{0.8cm}
     {\Large Escuela de Ingenier\'ia de Sistemas y Computaci\'on\par}
     {\large Facultad de Ingenier\'ia\par}
     \vspace{2.0cm}
@@ -68,12 +70,13 @@
         \textbf{Integrantes} & \textbf{C\'odigo} \\
         Libardo Alejandro Quintero G\'omez & 202342181 \\
         Mar\'ia Juliana Saavedra Torres & 202344035 \\
-        Juan David Rinc\'on L\'opez & \rule{3.2cm}{0.4pt} \\
+        Juan David Rinc\'on L\'opez & 202342032 \\
     \end{tabular}
     \vfill
     {\large Pr\'actica de Investigaci\'on 2026-I\par}
     {\large \today\par}
 \end{titlepage}
+
 
 \tableofcontents
 \newpage
@@ -238,6 +241,8 @@ La distinci\'on entre \(\mathcal{T}\) y \(\mathcal{S}\) es importante. El conjun
 \(v_c \in [0,100]\) & Valor ideol\'ogico asociado al contenido \(c\). Este valor funciona como la influencia externa ejercida por el contenido cuando es asignado. \\
 \(\epsilon\) & Tolerancia de consenso. En las variantes libres se exige que la polarizaci\'on final sea acotada por \(\epsilon\); en las variantes dirigidas, \(\epsilon\) define la amplitud de la banda objetivo. \\
 \(target\) & Valor objetivo de opini\'on usado en los modelos dirigidos. Permite formular metas de convergencia hacia una regi\'on ideol\'ogica espec\'ifica. \\
+\(Z^0_{\min}\) & Cantidad m\'inima de posiciones en cero que debe tener la secuencia de asignaciones de cada agente. En la implementaci\'on corresponde al par\'ametro \texttt{min\_zero\_per\_agent} del archivo \texttt{.dzn}. \\
+\(Z^0_{\max}\) & Cantidad m\'axima de posiciones en cero permitidas para cada agente. En la implementaci\'on no se entrega como dato independiente, sino que se deriva de la asignaci\'on m\'inima requerida: \(Z^0_{\max}=I_{\text{end}}-\texttt{min\_assign\_per\_agent}\). \\
 \texttt{full\_output} & Par\'ametro de salida que controla si se imprime la asignaci\'on completa por agente e intervalo o una versi\'on compacta del resultado. No modifica la sem\'antica del modelo, pero s\'i su costo de salida. \\
 \bottomrule
 \end{tabularx}
@@ -368,38 +373,58 @@ La interpretaci\'on es directa: los valores distintos de cero deben ser todos di
 
 Los modelos de consenso y las variantes con \(\epsilon\) restringen cu\'antos contenidos efectivos puede recibir cada agente a lo largo del horizonte. En estos modelos activos se exige al menos una asignaci\'on real, de modo que la intervenci\'on de la plataforma tenga alg\'un efecto potencial sobre la opini\'on del agente. El modelo base inicial, \texttt{simple\_content\_assignment.mzn}, se conserva como formulaci\'on m\'as b\'asica y no impone esta cota de cantidad m\'inima o m\'axima de asignaciones reales.
 
-En la implementaci\'on actual, las cotas de intensidad no est\'an fijadas directamente en el archivo \texttt{.mzn}, sino que se leen desde cada archivo de datos mediante los par\'ametros \texttt{min\_zero\_per\_agent} y \texttt{min\_assign\_per\_agent}. A partir de ellos, el modelo calcula la cota superior efectiva:
+En la implementaci\'on actual, las cotas de intensidad no est\'an fijadas directamente en el archivo \texttt{.mzn}, sino que se leen desde cada archivo de datos mediante los par\'ametros \texttt{min\_zero\_per\_agent} y \texttt{min\_assign\_per\_agent}. En notaci\'on matem\'atica, estos par\'ametros inducen las cotas sobre la cantidad de ceros:
 
 \[
-\texttt{max\_assign\_per\_agent}=\min(C,I_{\text{end}}-\texttt{min\_zero\_per\_agent}).
+Z^0_{\min}=\texttt{min\_zero\_per\_agent},
+\qquad
+Z^0_{\max}=I_{\text{end}}-\texttt{min\_assign\_per\_agent}.
 \]
 
-Por tanto, el rango general de asignaciones reales por agente queda expresado como
+Por tanto, la restricci\'on puede escribirse directamente sobre el n\'umero de intervalos sin contenido:
+
+\[
+Z^0_{\min}
+\leq
+\sum_{t\in\mathcal{T}} [x_{a,t}=0]
+\leq
+Z^0_{\max}.
+\]
+
+De forma equivalente, el modelo calcula la cota superior efectiva sobre asignaciones reales:
+
+\[
+\texttt{max\_assign\_per\_agent}=\min(C,I_{\text{end}}-Z^0_{\min}),
+\]
+
+y el rango general de contenidos efectivos por agente queda expresado como
 
 \[
 \texttt{min\_assign\_per\_agent}
 \leq
 \sum_{t\in\mathcal{T}} [x_{a,t}\neq 0]
 \leq
-\min(C,I_{\text{end}}-\texttt{min\_zero\_per\_agent}).
+\min(C,I_{\text{end}}-Z^0_{\min}).
 \]
 
 Los valores usados hist\'oricamente en los benchmarks se resumen en la Tabla~\ref{tab:parametros-intensidad}. Estas cotas cumplen un doble papel. Por un lado, reflejan un criterio de dise\~no experimental sobre la intensidad m\'axima de intervenci\'on permitida. Por otro, reducen el dominio de las variables y ayudan a controlar el tama\~no del espacio de b\'usqueda.
 
 \begin{table}[H]
 \centering
-\caption{Par\'ametros de intensidad usados en los datos de benchmark.}
+
 \label{tab:parametros-intensidad}
 \begin{tabular}{lcc}
 \toprule
-\textbf{Familia de datos} & \textbf{\texttt{min\_zero\_per\_agent}} & \textbf{\texttt{min\_assign\_per\_agent}} \\
+\textbf{Familia de datos} & \textbf{\(Z^0_{\min}\)} & \textbf{\(Z^0_{\max}\)} \\
 \midrule
-\texttt{consensus\_free} / \texttt{consensus\_directed} & 3 & 1 \\
-\texttt{epsilon\_free} & 7 & 1 \\
-\texttt{epsilon\_directed} & 4 & 1 \\
+\texttt{consensus\_free} / \texttt{consensus\_directed} & 3 & \(I_{\text{end}}-1\) \\
+\texttt{epsilon\_free} & 7 & \(I_{\text{end}}-1\) \\
+\texttt{epsilon\_directed} & 4 & \(I_{\text{end}}-1\) \\
 \bottomrule
 \end{tabular}
+\caption{Par\'ametros de intensidad usados en los datos de benchmark.}
 \end{table}
+
 
 \subsection{Simetr\'ia temporal: ceros al final}
 
@@ -528,18 +553,17 @@ En conjunto, esta familia de modelos permite comparar tres dimensiones del probl
 
 \section{Solvers y configuraci\'on experimental}
 
-Se usaron principalmente dos solvers:
+Se usaron principalmente tres solvers:
 
 \begin{itemize}
     \item \textbf{Chuffed 0.13.2}: solver CP con Lazy Clause Generation. Fue r\'apido en instancias peque\~nas y algunas medianas, pero se ralentiz\'o mucho en casos grandes.
     \item \textbf{OR Tools CP-SAT 9.15}: solver CP-SAT con mejor aprovechamiento de paralelismo en varias corridas. Se us\'o con \texttt{-Parallel 8} en los benchmarks medianos y grandes m\'as relevantes.
+    \item \textbf{Gecode}: solver CP cl\'asico. Se us\'o como contraste frente a Chuffed y OR Tools, especialmente en instancias grandes del modelo \(\epsilon\) libre. En esas corridas se prob\'o principalmente con \texttt{-Parallel 0}, es decir, sin pasar paralelismo expl\'icito desde el script; tambi\'en se intent\'o una corrida dirigida xlarge con \texttt{-Parallel 28}, que termin\'o en error.
 \end{itemize}
 
 Los tiempos l\'imite variaron entre \(15\) y \(30\) minutos por instancia. En las pruebas con \texttt{stress500} se intentaron ejecuciones largas; se report\'o que al menos una tanda qued\'o esperando cerca de tres horas sin producir resultado \'util.
 
 \section{Datos de prueba}
-
-\agentnote{Completar esta secci\'on con una tabla por carpeta de datos: \texttt{consensus\_free}, \texttt{consensus\_directed}, \texttt{epsilon\_free}, \texttt{epsilon\_directed}, \texttt{design\_free} y \texttt{design\_directed}. Incluir para cada una: tama\~nos smoke/small/medium/large/xlarge/massive/stress500, escenarios balanced\_bimodal, three\_clusters, high\_stubborn, target25\_downshift y target75\_upshift, valores de \(\epsilon\), target y criterio de generaci\'on de opiniones/contenidos.}
 
 En general, los datasets se organizaron por tipo de modelo y tama\~no:
 
@@ -563,25 +587,128 @@ stress500 & 500 & 100 & 100 \\
 
 Adem\'as de los par\'ametros estructurales \(A\), \(C\), \(I_{\text{end}}\), \(\epsilon\) y \texttt{target} cuando aplica, los archivos \texttt{.dzn} de las familias de consenso incluyen ahora los par\'ametros \texttt{min\_zero\_per\_agent} y \texttt{min\_assign\_per\_agent}. Esto permite ejecutar una misma formulaci\'on con distintas pol\'iticas de intensidad de intervenci\'on sin modificar el modelo MiniZinc.
 
+\subsection{Familias de archivos \texttt{.dzn}}
+
+La bater\'ia organizada de datos se encuentra en \texttt{data/benchmarks\_organized/} y est\'a indexada por \texttt{manifest.csv}. La Tabla~\ref{tab:familias-dzn} resume todos los grupos de \texttt{.dzn} disponibles en esa bater\'ia. En total, el manifiesto contiene 101 archivos de datos organizados entre casos base, consenso libre, consenso dirigido, variantes con \(\epsilon\) y modelos de dise\~no de contenidos.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Familias de archivos \texttt{.dzn} organizados.}
+\label{tab:familias-dzn}
+\begin{tabularx}{\linewidth}{l c l Y}
+\toprule
+\textbf{Suite} & \textbf{Archivos} & \textbf{Escalas} & \textbf{Escenarios o reto principal} \\
+\midrule
+\texttt{base\_plain} & 21 & smoke--stress500 & Casos base con perfiles bimodales, tres cl\'usteres y alta terquedad; se conservan como datos hist\'oricos o de referencia. \\
+\texttt{consensus\_free} & 15 & smoke--xlarge & Consenso libre sin \(\epsilon\). Eval\'ua reducci\'on directa de polarizaci\'on en poblaciones separadas o resistentes. \\
+\texttt{consensus\_directed} & 15 & smoke--xlarge & Consenso dirigido sin \(\epsilon\), con \texttt{target}. Eval\'ua si un agente de referencia puede llegar exactamente al objetivo. \\
+\texttt{epsilon\_free} & 21 & smoke--stress500 & Consenso libre con tolerancia \(\epsilon\). Incluye casos grandes y stress para medir escalabilidad. \\
+\texttt{epsilon\_directed} & 21 & smoke--stress500 & Consenso dirigido con banda \([target-\epsilon,target+\epsilon]\). Eval\'ua objetivos centrales, subida y bajada de opini\'on. \\
+\texttt{design\_free} & 4 & smoke--large & Modelo de dise\~no no dirigido: el solver decide valores de contenido, no solo asignaciones. \\
+\texttt{design\_directed} & 4 & smoke--large & Modelo de dise\~no dirigido hacia target alto; combina elecci\'on de contenidos y asignaci\'on. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Retos representados por los escenarios}
+
+Los escenarios no solo cambian los valores iniciales, sino tambi\'en el tipo de dificultad que enfrenta el solver. La Tabla~\ref{tab:retos-escenarios} resume la intenci\'on experimental de cada perfil.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Tipos de escenario y reto experimental.}
+\label{tab:retos-escenarios}
+\begin{tabularx}{\linewidth}{lY}
+\toprule
+\textbf{Escenario} & \textbf{Reto para el modelo} \\
+\midrule
+\texttt{balanced\_bimodal} & Divide la poblaci\'on en dos grupos alejados, cerca de extremos opuestos. Es un caso de depolarizaci\'on fuerte: el modelo debe encontrar contenidos puente que reduzcan una brecha inicial grande. \\
+\texttt{three\_clusters} & Distribuye agentes en posiciones baja, media y alta. Eval\'ua si el modelo puede coordinar recomendaciones para acercar grupos con un cl\'uster intermedio que puede actuar como puente. \\
+\texttt{high\_stubborn} & Usa agentes con mayor resistencia al cambio. Es dif\'icil porque cada contenido tiene menor impacto sobre la opini\'on y se requieren secuencias m\'as cuidadosas. \\
+\texttt{target25\_downshift} & Caso dirigido con opiniones iniciales relativamente altas y target bajo. Obliga al modelo a mover la poblaci\'on hacia abajo sin violar monotonicidad ni restricciones de asignaci\'on. \\
+\texttt{target75\_upshift} & Caso dirigido con opiniones iniciales bajas y target alto. Eval\'ua la capacidad de conducir la poblaci\'on hacia una regi\'on superior de la escala. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Benchmarks ejecutados hasta el momento}
+
+Los resultados ejecutados se encuentran archivados en \texttt{benchmark\_results\_archive/}. La Tabla~\ref{tab:corridas-archivadas} resume todos los \texttt{summary.csv} disponibles al momento de esta versi\'on del informe. Cada fila corresponde a una carpeta de resultados archivada.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Corridas de benchmark archivadas.}
+\label{tab:corridas-archivadas}
+\renewcommand{\arraystretch}{1.22}
+\begin{tabularx}{\linewidth}{p{0.24\linewidth} p{0.24\linewidth} c Y}
+\toprule
+\textbf{Familia} & \textbf{Escala y solver} & \textbf{Corridas} & \textbf{Resultado observado} \\
+\midrule
+\multicolumn{4}{l}{\textbf{Modelos sin \(\epsilon\)}} \\
+\midrule
+Consenso libre y dirigido & smoke/small, Chuffed & 12 & 11 completas y 1 con soluci\'on antes del l\'imite. \\
+Consenso libre & medium, Gecode & 3 & 3 desconocidas a 15 minutos. \\
+\midrule
+\multicolumn{4}{l}{\textbf{Modelos con \(\epsilon\) optimizados}} \\
+\midrule
+\(\epsilon\) libre optimizado & smoke--medium, Chuffed & 9 & 7 completas y 2 infactibles en smoke. \\
+\(\epsilon\) dirigido optimizado & smoke/small, Chuffed & 6 & 6 completas. \\
+\(\epsilon\) dirigido optimizado & medium, OR Tools CP-SAT p8 & 3 & 3 completas. \\
+\midrule
+\multicolumn{4}{l}{\textbf{Variantes \textit{search} m\'as optimizadas}} \\
+\midrule
+\(\epsilon\) libre search & medium, OR Tools CP-SAT & 4 & 4 completas, contando corridas medianas archivadas. \\
+\(\epsilon\) libre search & large, OR Tools CP-SAT p8 & 3 & 3 completas. \\
+\(\epsilon\) libre search & xlarge, Gecode p0 & 3 & 3 completas. \\
+\(\epsilon\) libre search & massive, Gecode p0 & 1 & 1 completa en \texttt{balanced\_bimodal}. \\
+\(\epsilon\) libre search & xlarge/massive, OR Tools CP-SAT p8/p16 & 13 & 13 errores en tandas grandes archivadas. \\
+\(\epsilon\) dirigido search & smoke/small, Chuffed & 6 & 6 completas. \\
+\(\epsilon\) dirigido search & large, OR Tools CP-SAT p8/p12 & 6 & 5 completas y 1 error entre las tandas archivadas. \\
+\(\epsilon\) dirigido search & xlarge, Gecode p28 & 1 & 1 error. \\
+\(\epsilon\) dirigido search & xlarge/massive/stress500, OR Tools CP-SAT p12 & 9 & 9 errores. \\
+\bottomrule
+\end{tabularx}
+\renewcommand{\arraystretch}{1.0}
+\end{table}
+
 \section{Resultados preliminares}
 
-Los resultados siguientes son preliminares y provienen de los \texttt{summary.csv} generados por los benchmarks. El estado \textit{optimal\_or\_complete} indica que MiniZinc report\'o terminaci\'on satisfactoria u optimalidad seg\'un la salida del solver; \textit{solution\_or\_timeout} indica que hubo soluci\'on, pero se alcanz\'o el l\'imite; \textit{error} corresponde a terminaciones sin soluci\'on utilizable o fallos del backend. En las nuevas ejecuciones, el resumen tambi\'en registra \texttt{min\_zero\_per\_agent}, \texttt{min\_assign\_per\_agent} y \texttt{max\_assign\_per\_agent\_effective}, de modo que sea posible comparar resultados obtenidos bajo distintas cotas de intervenci\'on.
+Los resultados siguientes son preliminares y provienen de los \texttt{summary.csv} generados por los benchmarks. Las pruebas se ejecutaron en una m\'aquina con procesador AMD Ryzen 9 8940HX, 32 hilos l\'ogicos, frecuencia m\'axima de hasta 5.3 GHz, 16 GB de RAM a 5200 MT/s y una unidad SSD NVMe de 1 TB. Esta configuraci\'on es importante para interpretar los tiempos, especialmente en las corridas con paralelismo y alto consumo de memoria.
+
+El estado \textit{optimal\_or\_complete} indica que MiniZinc report\'o terminaci\'on satisfactoria u optimalidad seg\'un la salida del solver; \textit{solution\_or\_timeout} indica que hubo soluci\'on, pero se alcanz\'o el l\'imite; \textit{error} corresponde a terminaciones sin soluci\'on utilizable o fallos del backend. En las nuevas ejecuciones, el resumen tambi\'en registra \texttt{min\_zero\_per\_agent}, \texttt{min\_assign\_per\_agent} y \texttt{max\_assign\_per\_agent\_effective}, de modo que sea posible comparar resultados obtenidos bajo distintas cotas de intervenci\'on.
 
 \begin{table}[H]
 \centering
 \caption{Cobertura efectiva por familia de modelos.}
+\small
+\renewcommand{\arraystretch}{1.25}
 \begin{tabularx}{\linewidth}{lYYYY}
 \toprule
 \textbf{Modelo} & \textbf{Smoke} & \textbf{Small} & \textbf{Medium} & \textbf{Large o m\'as} \\
 \midrule
+\multicolumn{5}{l}{\textbf{Modelos sin \(\epsilon\)}} \\
+\midrule
 Consenso libre sin \(\epsilon\) & 3/3 exitosos & 3/3 exitosos & 0/3 con Gecode a 15 min & Pendiente \\
+\addlinespace[0.25em]
 Consenso dirigido sin \(\epsilon\) & 3/3 exitosos & 2/3 exitosos; 1 con timeout y soluci\'on & Pendiente & Pendiente \\
+\midrule
+\multicolumn{5}{l}{\textbf{Modelos con \(\epsilon\) optimizados}} \\
+\midrule
 \(\epsilon\) libre optimizado & 1/3 exitoso; 2 infactibles & 3/3 exitosos & 3/3 exitosos con Chuffed & Pendiente \\
+\addlinespace[0.25em]
 \(\epsilon\) dirigido optimizado & 3/3 exitosos & 3/3 exitosos & 3/3 exitosos con OR Tools & Pendiente \\
+\midrule
+\multicolumn{5}{l}{\textbf{Variantes \textit{search} m\'as optimizadas}} \\
+\midrule
 \(\epsilon\) libre search & 1/3 exitoso; 2 infactibles & 3/3 exitosos & 3/3 exitosos con OR Tools & large 3/3 exitosos con OR Tools; xlarge 3/3 y massive 1/3 exitosos con Gecode p0 \\
+\addlinespace[0.25em]
 \(\epsilon\) dirigido search & Pendiente & Pendiente & 3/3 exitosos con OR Tools & large 3/3 exitosos con OR Tools; xlarge/massive/stress500 pendientes \\
 \bottomrule
 \end{tabularx}
+\renewcommand{\arraystretch}{1.0}
 \end{table}
 
 \begin{table}[H]
@@ -610,7 +737,216 @@ Consenso dirigido sin \(\epsilon\) & 3/3 exitosos & 2/3 exitosos; 1 con timeout 
 \end{tabularx}
 \end{table}
 
-Los resultados de Gecode muestran una diferencia importante entre familias. Aunque no cerr\'o las instancias medianas de consenso libre sin \(\epsilon\) dentro de 15 minutos, fue el backend m\'as efectivo en las instancias grandes del modelo \(\epsilon\) libre con variante \textit{search}: resolvi\'o los tres escenarios xlarge con paralelismo p0 y tambi\'en el caso massive balanced\_bimodal. En contraste, OR Tools CP-SAT con p8 fall\'o sobre esos mismos casos xlarge y massive del modelo \(\epsilon\) libre. Para el modelo \(\epsilon\) dirigido, en cambio, el intento xlarge con Gecode p28 termin\'o en error, por lo que este comportamiento favorable de Gecode no se generaliz\'o a la variante dirigida.
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Duraci\'on resumida de benchmarks realizados.}
+\label{tab:duracion-benchmarks}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\linewidth}{p{0.29\linewidth} p{0.19\linewidth} c c Y}
+\toprule
+\textbf{Grupo de corridas} & \textbf{Solver} & \textbf{Escala} & \textbf{Tiempo} & \textbf{Lectura} \\
+\midrule
+Consenso libre sin \(\epsilon\) & Chuffed & smoke/small & 0.18--2.12 s & Resuelve r\'apido las instancias peque\~nas. \\
+Consenso dirigido sin \(\epsilon\) & Chuffed & smoke/small & 0.18--900.24 s & La mayor\'ia resuelve r\'apido, pero aparece una corrida small que llega al l\'imite con soluci\'on. \\
+Consenso libre sin \(\epsilon\) & Gecode & medium & 900.26 s & Tres corridas quedaron en estado desconocido al l\'imite de 15 min. \\
+\(\epsilon\) libre optimizado & Chuffed & smoke/small & 0.19--1.35 s & Los casos peque\~nos son manejables; dos smoke fueron infactibles. \\
+\(\epsilon\) libre optimizado & Chuffed & medium & 51.14--704.56 s & Chuffed logra cerrar medianos, pero con variabilidad fuerte. \\
+\(\epsilon\) dirigido optimizado & OR Tools CP-SAT p8 & medium & 16.34--18.48 s & Comportamiento estable y r\'apido para instancias medianas dirigidas. \\
+\(\epsilon\) libre search & OR Tools CP-SAT p8 & medium & 19.38--22.24 s & Las variantes \textit{search} son efectivas en mediano con paralelismo. \\
+\(\epsilon\) libre search & OR Tools CP-SAT p8 & large & 224.16--289.70 s & OR Tools alcanza soluciones en large para los tres escenarios libres. \\
+\(\epsilon\) dirigido search & OR Tools CP-SAT p8 & large & 155.30--262.15 s & OR Tools tambi\'en resuelve large dirigido en tiempos de pocos minutos. \\
+\(\epsilon\) libre search & Gecode p0 & xlarge & 106.01--285.67 s & Gecode cerr\'o los tres xlarge libres con tiempos menores que los fallos de OR Tools. \\
+\(\epsilon\) libre search & Gecode p0 & massive & 2055.00 s & Una instancia massive libre se resolvi\'o en cerca de 34.25 min. \\
+\(\epsilon\) dirigido search & OR Tools CP-SAT p12 & massive/stress500 & 370.31--5293.97 s & Las corridas grandes dirigidas fallaron o quedaron sin soluci\'on utilizable. \\
+\bottomrule
+\end{tabularx}
+\renewcommand{\arraystretch}{1.0}
+\end{table}
+
+\subsection{Ejemplos de asignaciones obtenidas}
+
+Para complementar los indicadores agregados, se revisaron salidas con \texttt{FullOutput} en los logs crudos. En los ejemplos siguientes, cada entrada \((c):v\) indica que se asign\'o el contenido \(c\), cuyo valor ideol\'ogico es \(v\). Las posiciones \((--)\) corresponden a intervalos sin contenido. Se muestran solo fragmentos representativos para que el documento siga siendo legible; las matrices completas se conservan en los archivos \texttt{raw} de cada benchmark.
+
+\subsubsection{Consenso dirigido sin \(\epsilon\), smoke, \texttt{target25\_downshift}}
+
+Esta corrida termin\'o con opiniones finales \([25,28,26,28,26,28]\) y diferencia final \(3\). El agente de referencia alcanz\'o exactamente el objetivo \(25\).
+
+\[
+\begin{aligned}
+A_1 &: (4):43,\ (3):29,\ (6):71,\ (1):0,\ (--),\ (--),\ (--),\ (--)\\
+A_2 &: (3):29,\ (4):43,\ (5):57,\ (1):0,\ (--),\ (--),\ (--),\ (--)
+\end{aligned}
+\]
+
+La soluci\'on combina contenidos moderados y extremos bajos. El modelo usa esa secuencia para mover al agente objetivo hacia abajo sin alejar demasiado al resto de la poblaci\'on.
+
+\subsubsection{\(\epsilon\) libre optimizado, smoke, \texttt{three\_clusters}}
+
+Con \(\epsilon=15\), la corrida termin\'o con polarizaci\'on final \(14\) y opiniones finales \([38,49,51,39,49,37]\). Cada agente recibi\'o una sola asignaci\'on efectiva y los dem\'as intervalos quedaron vac\'ios:
+
+\[
+\begin{aligned}
+A_1 &: (5):52 &
+A_2 &: (4):48 &
+A_3 &: (1):0 \\
+A_4 &: (8):100 &
+A_5 &: (4):48 &
+A_6 &: (2):15
+\end{aligned}
+\]
+
+Este caso muestra que la tolerancia de consenso puede permitir soluciones muy dispersas en el tiempo: basta una intervenci\'on por agente para dejar la diferencia final dentro de la banda permitida.
+
+\subsubsection{\(\epsilon\) dirigido optimizado, medium, \texttt{three\_clusters}}
+
+Con \(target=50\) y \(\epsilon=10\), la banda objetivo fue \([40,60]\). La corrida obtuvo polarizaci\'on final \(18\), \(34\) asignaciones totales y opiniones finales dentro de la banda dirigida. Un fragmento de los primeros agentes fue:
+
+\[
+\begin{aligned}
+A_1 &: (22):55 &
+A_2 &: (24):64 &
+A_3 &: (1):0 \\
+A_4 &: (14):17,\ (11):100 &
+A_5 &: (1):0 &
+A_6 &: (16):27
+\end{aligned}
+\]
+
+La soluci\'on es relativamente escasa: la mayor\'ia de agentes recibe una sola intervenci\'on y algunos reciben dos o tres. La banda dirigida evita exigir igualdad exacta y permite cumplir el objetivo con menos recomendaciones.
+
+En las corridas grandes ejecutadas con salida compacta, especialmente algunas de Gecode en xlarge y massive, se registraron conteos por agente y opiniones finales, pero no necesariamente la matriz completa de asignaciones. Por eso, los ejemplos anteriores provienen de tandas donde se activ\'o \texttt{-FullOutput}.
+
+\section{An\'alisis de resultados}
+
+Los benchmarks obtenidos muestran que el desempe\~no depende simult\'aneamente del tama\~no de la instancia, del tipo de consenso, de la presencia de tolerancia \(\epsilon\), de la estrategia de b\'usqueda y del solver. No hay un solver dominante en todas las escalas: cada uno tuvo un rango de utilidad distinto.
+
+Chuffed fue especialmente r\'apido en modelos peque\~nos. En los casos smoke y small, tanto sin \(\epsilon\) como con \(\epsilon\), resolvi\'o muchas corridas en menos de dos segundos. Sin embargo, al crecer hacia medium y large el comportamiento se volvi\'o menos estable: en \(\epsilon\) libre optimizado medium logr\'o resolver, pero con tiempos que llegaron a varios minutos. Esto sugiere que Chuffed es una buena primera opci\'on para validar formulaciones, depurar datos y ejecutar bater\'ias peque\~nas, pero no necesariamente para escalar a instancias muy grandes.
+
+OR Tools CP-SAT fue el solver m\'as conveniente para instancias medianas y semigrandes. En los modelos \(\epsilon\) dirigidos optimizados de escala medium, con \texttt{-Parallel 8}, resolvi\'o tres casos en aproximadamente 16--18 segundos. En las variantes \textit{search}, tambi\'en logr\'o resolver los casos large tanto libres como dirigidos en tiempos de pocos minutos. Esto indica que OR Tools aprovech\'o mejor el paralelismo disponible para una franja intermedia del problema, especialmente cuando la formulaci\'on ya inclu\'ia tolerancia \(\epsilon\) y estrategias de b\'usqueda m\'as especializadas.
+
+Gecode tuvo un comportamiento m\'as particular. Aunque no cerr\'o las instancias medianas de consenso libre sin \(\epsilon\) dentro de 15 minutos, fue el backend m\'as efectivo en las instancias muy grandes del modelo \(\epsilon\) libre con variante \textit{search}: resolvi\'o los tres escenarios xlarge con paralelismo p0 y tambi\'en el caso massive \texttt{balanced\_bimodal}. En contraste, OR Tools CP-SAT con p8 fall\'o sobre esos mismos casos xlarge y massive del modelo \(\epsilon\) libre. Para el modelo \(\epsilon\) dirigido, en cambio, el intento xlarge con Gecode p28 termin\'o en error, por lo que este comportamiento favorable de Gecode no se generaliz\'o a la variante dirigida.
+
+Una conclusi\'on relevante es que los modelos con consenso libre tienden a encontrar respuestas con mayor facilidad que los modelos dirigidos. En el consenso libre, el solver puede reducir la dispersi\'on final sin obligar a la poblaci\'on a caer alrededor de un valor externo espec\'ifico. En los modelos dirigidos, la banda o el target reducen la flexibilidad de la soluci\'on y vuelven m\'as dif\'icil satisfacer simult\'aneamente las restricciones de evoluci\'on, monotonicidad, no repetici\'on e intensidad de intervenci\'on.
+
+La introducci\'on de \(\epsilon\) tambi\'en fue clave para escalar. Los modelos sin \(\epsilon\) fueron \'utiles para smoke y small, pero se volvieron fr\'agiles desde medium. Las variantes con \(\epsilon\) permiten representar un consenso m\'as realista mediante bandas de tolerancia y, al mismo tiempo, ofrecen al solver una regi\'on factible m\'as amplia. Por eso los modelos con \(\epsilon\), especialmente las variantes \textit{search}, alcanzaron resultados en datos medianos, large, xlarge e incluso una instancia massive.
+
+Las variantes optimizadas para \textit{search} fueron las que permitieron llegar a datos m\'as pesados. Aunque conservan la misma sem\'antica del modelo optimizado, reorganizan la exploraci\'on del espacio de b\'usqueda y favorecen decisiones que producen mejores resultados pr\'acticos. En particular, el modelo \(\epsilon\) libre \textit{search} fue el m\'as robusto experimentalmente: resolvi\'o medium y large con OR Tools, y xlarge/massive con Gecode.
+
+Durante las ejecuciones tambi\'en se observ\'o un costo importante de recursos. OR Tools CP-SAT lleg\'o a consumir alrededor de 10 GB de RAM en corridas pesadas, mientras que Chuffed alcanz\'o consumos cercanos a 5 GB. Gecode tambi\'en us\'o bastante memoria, aunque en las pruebas observadas se mantuvo m\'as cerca de 2 GB. Adem\'as, en OR Tools CP-SAT y Chuffed se observ\'o un aumento fuerte del uso de disco durante algunas corridas grandes, probablemente asociado a archivos temporales, trazas internas del backend o presi\'on de memoria del sistema operativo. Estas observaciones no provienen de una instrumentaci\'on sistem\'atica dentro del \texttt{summary.csv}, pero son relevantes para interpretar por qu\'e algunos experimentos se ralentizaron o terminaron en error.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar stacked,
+    width=0.92\linewidth,
+    height=6.4cm,
+    ylabel={N\'umero de corridas},
+    symbolic x coords={CF,CD,EF opt,ED opt,EF search,ED search},
+    xtick=data,
+    ymin=0,
+    ymax=30,
+    bar width=14pt,
+    enlarge x limits=0.08,
+    grid=major,
+    legend style={at={(0.5,-0.24)},anchor=north,legend columns=4},
+    nodes near coords,
+    every node near coord/.append style={font=\tiny}
+]
+\addplot[fill=paperteal!75] coordinates {(CF,6) (CD,6) (EF opt,7) (ED opt,9) (EF search,11) (ED search,14)};
+\addplot[fill=paperorange!65] coordinates {(CF,0) (CD,0) (EF opt,2) (ED opt,0) (EF search,0) (ED search,0)};
+\addplot[fill=paperblue!35] coordinates {(CF,3) (CD,0) (EF opt,0) (ED opt,0) (EF search,0) (ED search,0)};
+\addplot[fill=red!55] coordinates {(CF,0) (CD,0) (EF opt,0) (ED opt,0) (EF search,17) (ED search,11)};
+\legend{Exitosas,Infactibles,Desconocidas,Errores}
+\end{axis}
+\end{tikzpicture}
+\caption{Resultados alcanzados por familia de modelo. CF: consenso libre sin \(\epsilon\); CD: consenso dirigido sin \(\epsilon\); EF/ED: variantes \(\epsilon\) libre/dirigida.}
+\label{fig:resultados-por-modelo}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{semilogyaxis}[
+    width=0.92\linewidth,
+    height=6.6cm,
+    xlabel={Escala},
+    ylabel={Tiempo promedio de corridas exitosas (s, escala log)},
+    symbolic x coords={smoke,small,medium,large,xlarge,massive},
+    xtick=data,
+    ymin=0.1,
+    ymax=4000,
+    grid=both,
+    legend style={at={(0.5,-0.26)},anchor=north,legend columns=2}
+]
+\addplot[color=paperblue,mark=*] coordinates {(smoke,0.18) (small,1.06)};
+\addlegendentry{Consenso libre, Chuffed}
+\addplot[color=paperteal,mark=square*] coordinates {(smoke,0.20) (small,0.83) (medium,273.65)};
+\addlegendentry{\(\epsilon\) libre opt., Chuffed}
+\addplot[color=paperorange,mark=triangle*] coordinates {(medium,19.08) (large,262.43) (xlarge,195.89) (massive,2055.00)};
+\addlegendentry{\(\epsilon\) libre search}
+\addplot[color=red!70!black,mark=diamond*] coordinates {(medium,17.06) (large,259.61)};
+\addlegendentry{\(\epsilon\) dirigido search}
+\end{semilogyaxis}
+\end{tikzpicture}
+\caption{Escalamiento del tiempo en corridas exitosas. La escala logar\'itmica permite comparar desde casos subsegundo hasta la instancia massive resuelta con Gecode.}
+\label{fig:tiempo-por-escala}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar stacked,
+    width=0.82\linewidth,
+    height=6.2cm,
+    ylabel={N\'umero de corridas},
+    symbolic x coords={Chuffed,OR Tools,Gecode},
+    xtick=data,
+    ymin=0,
+    ymax=48,
+    bar width=24pt,
+    enlarge x limits=0.22,
+    grid=major,
+    legend style={at={(0.5,-0.22)},anchor=north,legend columns=4},
+    nodes near coords,
+    every node near coord/.append style={font=\tiny}
+]
+\addplot[fill=paperteal!75] coordinates {(Chuffed,31) (OR Tools,18) (Gecode,4)};
+\addplot[fill=paperorange!65] coordinates {(Chuffed,2) (OR Tools,0) (Gecode,0)};
+\addplot[fill=paperblue!35] coordinates {(Chuffed,0) (OR Tools,0) (Gecode,3)};
+\addplot[fill=red!55] coordinates {(Chuffed,0) (OR Tools,27) (Gecode,1)};
+\legend{Exitosas,Infactibles,Desconocidas,Errores}
+\end{axis}
+\end{tikzpicture}
+\caption{Resultados seg\'un solver en los benchmarks archivados. La comparaci\'on debe leerse junto con la escala de datos: Chuffed se us\'o m\'as en peque\~nos, OR Tools se empuj\'o a grandes y Gecode se prob\'o en menos casos.}
+\label{fig:resultados-por-solver}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    width=0.76\linewidth,
+    height=5.6cm,
+    ylabel={RAM observada aprox. (GB)},
+    symbolic x coords={Gecode,Chuffed,OR Tools},
+    xtick=data,
+    ymin=0,
+    ymax=11,
+    bar width=28pt,
+    enlarge x limits=0.25,
+    grid=major,
+    nodes near coords
+]
+\addplot[fill=paperorange!75] coordinates {(Gecode,2) (Chuffed,5) (OR Tools,10)};
+\end{axis}
+\end{tikzpicture}
+\caption{Consumo aproximado de memoria observado durante corridas pesadas. Esta medici\'on es operativa, no una columna registrada autom\'aticamente en los \texttt{summary.csv}.}
+\label{fig:ram-observada}
+\end{figure}
 
 \begin{figure}[H]
 \centering
@@ -669,7 +1005,7 @@ Los resultados de Gecode muestran una diferencia importante entre familias. Aunq
 \caption{Mapa preliminar de avance experimental por escala.}
 \end{figure}
 
-\agentnote{Actualizar las tablas cuando se ejecuten large, xlarge, massive y stress500. Separar claramente resultados con Chuffed 0.13.2, OR Tools CP-SAT 9.15 y Gecode, e indicar si cada fila fue corrida con salida completa de asignaciones o salida compacta.}
+
 
 \section{Discusi\'on preliminar}
 
@@ -683,7 +1019,6 @@ Desde el punto de vista computacional, las mejoras m\'as relevantes han sido aco
 
 Como trabajo futuro, se propone extender el modelo en varias direcciones. Primero, modelar sesgos cognitivos como el \textit{backfire effect}, de forma que ciertos contenidos puedan reforzar la opini\'on previa del agente en lugar de acercarla al consenso. Segundo, permitir que la terquedad o \texttt{stubbornness} cambie a lo largo del tiempo, capturando procesos de fatiga, resistencia creciente o apertura progresiva a la influencia externa. Tercero, ajustar la red para que en cada intervalo sea posible una interacci\'on con otros individuos, incorporando una componente social expl\'icita adem\'as de la influencia del contenido recomendado. Finalmente, se plantea integrar objetivos adicionales, como evitar el \textit{backfire} o maximizar \textit{engagement}, dentro de la funci\'on objetivo mediante \textit{soft constraints} con pesos matem\'aticos estandarizados. Estos pesos permitir\'ian balancear el cambio de opini\'on, la calidad de la intervenci\'on y otros criterios de plataforma para que tambi\'en influyan en la soluci\'on encontrada.
 
-\agentnote{Antes de entregar el informe final, agregar: estado del arte completo, explicaci\'on detallada del generador de datos, tablas autom\'aticas desde los CSV finales, gr\'aficas con todos los benchmarks, referencias BibTeX, y una validaci\'on de que la restricci\'on de ceros al final no cambia la pregunta experimental que se quiere responder.}
 
 \bibliographystyle{plain}
 \bibliography{articulos}
