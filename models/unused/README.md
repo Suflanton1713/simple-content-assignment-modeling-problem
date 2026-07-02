@@ -18,7 +18,5 @@ Estos modelos se conservan como referencia historica, pero no forman parte de la
 - `../simple_content_assignment_epsilon_consensus_free_optimized.mzn`
 - `../simple_content_assignment_epsilon_consensus_directed_optimized.mzn`
 - `../simple_content_assignment_epsilon_consensus_free_chuffed_search.mzn`
-- `../simple_content_assignment_epsilon_consensus_free_chuffed_propagation.mzn`
 - `../simple_content_assignment_epsilon_consensus_directed_chuffed_search.mzn`
-- `../simple_content_assignment_epsilon_consensus_directed_chuffed_propagation.mzn`
 - `../simple_content_design_epsilon_consensus.mzn`
