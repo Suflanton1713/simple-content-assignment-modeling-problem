@@ -41,11 +41,13 @@ El manual de MiniZinc recomienda cotar variables, evitar generadores innecesaria
 
 \section{Optimizaciones implementadas}
 \subsection{Cotas estrechas}
-Se agrego:
+Originalmente estas cotas estaban fijadas dentro del modelo. En la versi\'on actual se leen desde el archivo \texttt{.dzn}, de modo que la intensidad de intervenci\'on pueda variar entre bater\'ias de prueba sin modificar la formulaci\'on MiniZinc:
 \begin{lstlisting}
-int: MAX_ASSIGN_PER_AGENT = min(C, Iend - MIN_ZERO_PER_AGENT);
+int: min_zero_per_agent;
+int: min_assign_per_agent;
+int: max_assign_per_agent = min(C, Iend - min_zero_per_agent);
 \end{lstlisting}
-Esto reduce dominios: ningun agente puede recibir mas contenidos que \texttt{C}, ni mas que los turnos disponibles despues de exigir ceros. En CP, dominios mas pequenos permiten mas poda.
+Esto reduce dominios: ningun agente puede recibir mas contenidos que \texttt{C}, ni mas que los turnos disponibles despues de exigir ceros. El minimo de asignaciones reales tambien queda parametrizado mediante \texttt{min\_assign\_per\_agent}. En CP, dominios mas pequenos permiten mas poda y, al quedar en los datos, estas cotas se pueden reportar junto con cada benchmark.
 
 \subsection{Ruptura de simetria temporal}
 Se agrego:

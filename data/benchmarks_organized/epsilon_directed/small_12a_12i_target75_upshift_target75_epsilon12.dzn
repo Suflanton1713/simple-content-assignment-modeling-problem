@@ -10,3 +10,6 @@ target = 75;
 initialOpinion = [18, 31, 8, 21, 34, 11, 24, 37, 14, 27, 40, 17];
 stubbornness = [44, 53, 62, 71, 35, 44, 53, 62, 71, 35, 44, 53];
 contentValue = [0, 9, 18, 27, 36, 45, 55, 64, 73, 82, 91, 100];
+min_zero_per_agent = 4;
+min_assign_per_agent = 1;
+

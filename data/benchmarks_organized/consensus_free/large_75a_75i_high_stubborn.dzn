@@ -26,3 +26,6 @@ contentValue = [
   10, 20, 35, 45, 50, 55, 65, 80, 90, 95, 100, 0, 5, 10, 20, 35, 45, 50,
   55, 65, 80
 ];
+min_zero_per_agent = 3;
+min_assign_per_agent = 1;
+

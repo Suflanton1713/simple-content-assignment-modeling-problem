@@ -8,3 +8,6 @@ Iend = 8;
 initialOpinion = [33, 56, 79, 21, 44, 67];
 stubbornness = [85, 92, 81, 88, 95, 84];
 contentValue = [0, 5, 10, 20, 35, 45, 50, 55];
+min_zero_per_agent = 3;
+min_assign_per_agent = 1;
+

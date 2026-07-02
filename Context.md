@@ -182,6 +182,29 @@ design_directed
 
 La convencion usada para los datos principales fue dejar `C = Iend` cuando aplica, porque si los contenidos se agotan antes del horizonte temporal el experimento pierde sentido para estos modelos.
 
+Las cotas de intensidad por agente se leen desde los `.dzn` en los modelos activos de asignacion:
+
+```text
+min_zero_per_agent   -> cantidad minima de posiciones sin contenido por agente
+min_assign_per_agent -> cantidad minima de contenidos reales por agente
+```
+
+El maximo efectivo se calcula dentro del modelo como:
+
+```text
+max_assign_per_agent = min(C, Iend - min_zero_per_agent)
+```
+
+Valores historicos usados en los benchmarks:
+
+```text
+consensus_free / consensus_directed -> min_zero_per_agent = 3, min_assign_per_agent = 1
+epsilon_free                        -> min_zero_per_agent = 7, min_assign_per_agent = 1
+epsilon_directed                    -> min_zero_per_agent = 4, min_assign_per_agent = 1
+```
+
+Los modelos `design_*` usan `min_assign_per_agent` y `max_assign_per_agent` directamente desde el `.dzn`, porque alli la cota superior puede ser parte del experimento de diseno.
+
 Escalas:
 
 ```text
@@ -347,6 +370,8 @@ error
 ```
 
 El proceso tuvo `exit_code != 0` o MiniZinc/solver devolvio error. No debe interpretarse automaticamente como infactible.
+
+En corridas nuevas, `summary.csv` tambien incluye `min_zero_per_agent`, `min_assign_per_agent` y `max_assign_per_agent_effective`. Estas columnas registran la politica de asignacion usada por la instancia y ayudan a comparar benchmarks ejecutados con cotas distintas.
 
 Cuando los logs muestran:
 

@@ -2,6 +2,8 @@ include "alldifferent_except_0.mzn";
 
 int: A; int: C; int: Iend;
 int: target;
+int: min_zero_per_agent;
+int: min_assign_per_agent;
 
 set of int: AGENT    = 1..A;
 set of int: CONTENT  = 1..C;
@@ -16,6 +18,10 @@ array[AGENT, TIME]    of var CONTENTx: assignment;
 array[AGENT, 0..Iend] of var 0..100:  opinion;
 
 array[AGENT] of int: snw = [100 - stubbornness[a] | a in AGENT];
+int: max_assign_per_agent = min(C, Iend - min_zero_per_agent);
+
+constraint assert(max_assign_per_agent >= min_assign_per_agent,
+    "Instancia infactible: Iend/C no permiten las asignaciones minimas y ceros minimos por agente.");
 
 % 1. Condicion inicial
 constraint forall(a in AGENT)(
@@ -34,11 +40,8 @@ constraint forall(a in AGENT)(
 
 % 4. Rango de asignaciones por agente
 constraint forall(a in AGENT)(
-    count([assignment[a, t] | t in TIME], 0) <= Iend-1
-);
-
-constraint forall(a in AGENT)(
-    count([assignment[a, t] | t in TIME], 0) >= 3
+    sum(t in TIME)(bool2int(assignment[a, t] != 0)) >= min_assign_per_agent /\
+    sum(t in TIME)(bool2int(assignment[a, t] != 0)) <= max_assign_per_agent
 );
 
 % 5. Dinamica directa
@@ -78,7 +81,10 @@ solve :: int_search(
 
 output [
     "=== CONSENSUS DIRECTED ===\n",
-    "Target agente 1: " ++ show(target) ++ "\n"
+    "Target agente 1: " ++ show(target) ++ "\n",
+    "min_zero_per_agent=" ++ show(min_zero_per_agent) ++
+    " min_assign_per_agent=" ++ show(min_assign_per_agent) ++
+    " max_assign_per_agent=" ++ show(max_assign_per_agent) ++ "\n"
 ] ++ [
     if t == 1 then "\nAgente \(a) | " else "" endif ++
     if fix(assignment[a, t]) > 0 then

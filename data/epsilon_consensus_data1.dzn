@@ -1,6 +1,6 @@
 % ================================================================
 %  Datos compartidos para ambos modelos epsilon
-%  Cambiar epsilon / target según el modelo que se ejecute
+%  Cambiar epsilon / target seg??n el modelo que se ejecute
 % ================================================================
 
 A    = 5;
@@ -20,3 +20,6 @@ epsilon = 15;
 initialOpinion = [10, 85, 50, 5, 90];
 stubbornness   = [80, 75, 60, 85, 70];
 contentValue   = [5, 15, 30, 45, 55, 70, 85, 95];
+min_zero_per_agent = 7;
+min_assign_per_agent = 1;
+

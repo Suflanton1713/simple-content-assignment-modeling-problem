@@ -8,3 +8,6 @@ target = 50;
 initialOpinion = [10, 85, 50, 5, 90];
 stubbornness = [80, 75, 60, 85, 70];
 contentValue = [5, 15, 30, 45, 55, 70, 85, 95];
+min_zero_per_agent = 4;
+min_assign_per_agent = 1;
+

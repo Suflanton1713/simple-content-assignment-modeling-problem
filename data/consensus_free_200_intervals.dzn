@@ -2,3 +2,6 @@ A = 10; C = 10; Iend = 200;
 initialOpinion = [4,9,13,88,92,97,6,11,85,94];
 stubbornness = [97,95,96,98,97,93,94,96,95,98];
 contentValue = [3,8,15,25,40,60,75,85,92,97];
+min_zero_per_agent = 3;
+min_assign_per_agent = 1;
+

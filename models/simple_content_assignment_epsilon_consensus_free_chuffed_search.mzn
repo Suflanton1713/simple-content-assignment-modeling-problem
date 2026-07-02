@@ -20,6 +20,8 @@ int: A;
 int: C;
 int: Iend;
 int: epsilon;
+int: min_zero_per_agent;
+int: min_assign_per_agent;
 bool: full_output = false;
 
 set of int: AGENT = 1..A;
@@ -37,12 +39,10 @@ array[AGENT, STEP] of var 0..100: opinion;
 
 array[AGENT] of int: snw = [100 - stubbornness[a] | a in AGENT];
 
-int: MIN_ZERO_PER_AGENT = 7;
-int: MIN_ASSIGN_PER_AGENT = 1;
-int: MAX_ASSIGN_PER_AGENT = min(C, Iend - MIN_ZERO_PER_AGENT);
+int: max_assign_per_agent = min(C, Iend - min_zero_per_agent);
 
-constraint assert(MAX_ASSIGN_PER_AGENT >= MIN_ASSIGN_PER_AGENT,
-    "Instancia infactible: Iend debe permitir al menos una asignacion y 7 ceros por agente.");
+constraint assert(max_assign_per_agent >= min_assign_per_agent,
+    "Instancia infactible: Iend/C no permiten las asignaciones minimas y ceros minimos por agente.");
 
 constraint forall(a in AGENT)(
     opinion[a,0] = initialOpinion[a]
@@ -53,8 +53,8 @@ constraint forall(a in AGENT)(
 );
 
 constraint forall(a in AGENT)(
-    sum(t in TIME)(bool2int(assignment[a,t] != 0)) >= MIN_ASSIGN_PER_AGENT /\
-    sum(t in TIME)(bool2int(assignment[a,t] != 0)) <= MAX_ASSIGN_PER_AGENT
+    sum(t in TIME)(bool2int(assignment[a,t] != 0)) >= min_assign_per_agent /\
+    sum(t in TIME)(bool2int(assignment[a,t] != 0)) <= max_assign_per_agent
 );
 
 constraint symmetry_breaking_constraint(
@@ -102,6 +102,9 @@ minimize max_diff[Iend];
 output [
     "=== EPSILON-CONSENSO NO DIRIGIDO CHUFFED SEARCH ===\n",
     "A=" ++ show(A) ++ " C=" ++ show(C) ++ " Iend=" ++ show(Iend) ++ " epsilon=" ++ show(epsilon) ++ "\n",
+    "min_zero_per_agent=" ++ show(min_zero_per_agent) ++
+    " min_assign_per_agent=" ++ show(min_assign_per_agent) ++
+    " max_assign_per_agent=" ++ show(max_assign_per_agent) ++ "\n",
     "Polarizacion final: " ++ show(max_diff[Iend]) ++ "\n",
     "Asignaciones por agente: " ++ show([sum(t in TIME)(bool2int(fix(assignment[a,t]) != 0)) | a in AGENT]) ++ "\n",
     "Opiniones finales: " ++ show([opinion[a,Iend] | a in AGENT]) ++ "\n",

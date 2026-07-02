@@ -19,6 +19,7 @@ benchmark_results_archive/
 
 - Las variantes `propagation`, `gecode_search` y `tuned` fueron depuradas.
 - Los resultados donde `Gecode` fue usado como solver sobre modelos activos `*_chuffed_search.mzn` se conservaron.
+- Los `summary.csv` nuevos guardan las columnas `min_zero_per_agent`, `min_assign_per_agent` y `max_assign_per_agent_effective` cuando el `.dzn` contiene esas cotas.
 - Para analizar resultados existentes, buscar `summary.csv` de forma recursiva:
 
 ```powershell
