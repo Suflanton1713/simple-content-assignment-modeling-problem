@@ -33,9 +33,7 @@ El indice completo esta en `data/benchmarks_organized/manifest.csv`.
 - `models/simple_content_assignment_epsilon_consensus_free_optimized.mzn`
 - `models/simple_content_assignment_epsilon_consensus_directed_optimized.mzn`
 - `models/simple_content_assignment_epsilon_consensus_free_chuffed_search.mzn`
-- `models/simple_content_assignment_epsilon_consensus_free_chuffed_propagation.mzn`
 - `models/simple_content_assignment_epsilon_consensus_directed_chuffed_search.mzn`
-- `models/simple_content_assignment_epsilon_consensus_directed_chuffed_propagation.mzn`
 - `models/simple_content_design_epsilon_consensus.mzn`
 
 Los modelos historicos no usados en la bateria principal estan en `models/unused/`.
