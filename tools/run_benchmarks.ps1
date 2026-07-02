@@ -40,13 +40,34 @@ function Expand-CommaList {
     return $expanded
 }
 
+function Get-DznInt {
+    param(
+        [string]$Path,
+        [string]$Name
+    )
+
+    if (-not (Test-Path $Path)) {
+        return $null
+    }
+
+    $text = Get-Content -Path $Path -Raw
+    $pattern = "(?m)^\s*$([regex]::Escape($Name))\s*=\s*(-?\d+)\s*;"
+    $match = [regex]::Match($text, $pattern)
+    if ($match.Success) {
+        return [int]$match.Groups[1].Value
+    }
+    return $null
+}
+
 $Suites = Expand-CommaList $Suites
 $Sizes = Expand-CommaList $Sizes
 $Models = Expand-CommaList $Models
 $Solvers = Expand-CommaList $Solvers
 
 New-Item -ItemType Directory -Force -Path $RawDir | Out-Null
-New-Item -ItemType Directory -Force -Path $TempModelDir | Out-Null
+if ($FullOutput) {
+    New-Item -ItemType Directory -Force -Path $TempModelDir | Out-Null
+}
 
 $PreviousErrorActionPreference = $ErrorActionPreference
 $ErrorActionPreference = "Continue"
@@ -100,6 +121,12 @@ foreach ($row in $rows) {
 
         $modelPath = Join-Path $ModelDir $modelName
         $dataPath = Join-Path $Root $row.file
+        $minZeroPerAgent = Get-DznInt -Path $dataPath -Name "min_zero_per_agent"
+        $minAssignPerAgent = Get-DznInt -Path $dataPath -Name "min_assign_per_agent"
+        $maxAssignPerAgentEffective = $null
+        if ($null -ne $minZeroPerAgent) {
+            $maxAssignPerAgentEffective = [Math]::Min([int]$row.C, [int]$row.Iend - $minZeroPerAgent)
+        }
 
         if (-not (Test-Path $modelPath)) {
             Write-Warning "Skipping missing model: $modelPath"
@@ -178,6 +205,9 @@ foreach ($row in $rows) {
                 C = $row.C
                 Iend = $row.Iend
                 scenario = $row.scenario
+                min_zero_per_agent = $minZeroPerAgent
+                min_assign_per_agent = $minAssignPerAgent
+                max_assign_per_agent_effective = $maxAssignPerAgentEffective
                 model = $modelName
                 solver = $solver
                 parallel = $Parallel

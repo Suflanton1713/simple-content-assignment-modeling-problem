@@ -21,6 +21,8 @@ int: C;
 int: Iend;
 int: epsilon;
 int: target;
+int: min_zero_per_agent;
+int: min_assign_per_agent;
 bool: full_output = false;
 
 set of int: AGENT = 1..A;
@@ -41,12 +43,10 @@ array[AGENT] of int: snw = [100 - stubbornness[a] | a in AGENT];
 int: target_lo = max(0, target - epsilon);
 int: target_hi = min(100, target + epsilon);
 
-int: MIN_ZERO_PER_AGENT = 4;
-int: MIN_ASSIGN_PER_AGENT = 1;
-int: MAX_ASSIGN_PER_AGENT = min(C, Iend - MIN_ZERO_PER_AGENT);
+int: max_assign_per_agent = min(C, Iend - min_zero_per_agent);
 
-constraint assert(MAX_ASSIGN_PER_AGENT >= MIN_ASSIGN_PER_AGENT,
-    "Instancia infactible: Iend debe permitir al menos una asignacion y 4 ceros por agente.");
+constraint assert(max_assign_per_agent >= min_assign_per_agent,
+    "Instancia infactible: Iend/C no permiten las asignaciones minimas y ceros minimos por agente.");
 
 constraint forall(a in AGENT)(
     opinion[a,0] = initialOpinion[a]
@@ -57,8 +57,8 @@ constraint forall(a in AGENT)(
 );
 
 constraint forall(a in AGENT)(
-    sum(t in TIME)(bool2int(assignment[a,t] != 0)) >= MIN_ASSIGN_PER_AGENT /\
-    sum(t in TIME)(bool2int(assignment[a,t] != 0)) <= MAX_ASSIGN_PER_AGENT
+    sum(t in TIME)(bool2int(assignment[a,t] != 0)) >= min_assign_per_agent /\
+    sum(t in TIME)(bool2int(assignment[a,t] != 0)) <= max_assign_per_agent
 );
 
 constraint symmetry_breaking_constraint(
@@ -96,7 +96,7 @@ constraint forall(a in AGENT)(
     opinion[a,Iend] <= target_hi
 );
 
-var A..(A * MAX_ASSIGN_PER_AGENT): total_assigned;
+var A..(A * max_assign_per_agent): total_assigned;
 constraint total_assigned = sum(a in AGENT, t in TIME)(bool2int(assignment[a,t] != 0));
 
 solve
@@ -113,6 +113,9 @@ output [
     "=== EPSILON-CONSENSO DIRIGIDO CHUFFED SEARCH ===\n",
     "A=" ++ show(A) ++ " C=" ++ show(C) ++ " Iend=" ++ show(Iend) ++ " target=" ++ show(target) ++ " epsilon=" ++ show(epsilon) ++ "\n",
     "Banda objetivo: [" ++ show(target_lo) ++ "," ++ show(target_hi) ++ "]\n",
+    "min_zero_per_agent=" ++ show(min_zero_per_agent) ++
+    " min_assign_per_agent=" ++ show(min_assign_per_agent) ++
+    " max_assign_per_agent=" ++ show(max_assign_per_agent) ++ "\n",
     "Asignaciones totales: " ++ show(total_assigned) ++ "\n",
     "Asignaciones por agente: " ++ show([sum(t in TIME)(bool2int(fix(assignment[a,t]) != 0)) | a in AGENT]) ++ "\n",
     "Polarizacion final: " ++ show(max_diff[Iend]) ++ "\n",

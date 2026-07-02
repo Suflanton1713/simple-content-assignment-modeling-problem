@@ -22,6 +22,8 @@ int: A;
 int: C;
 int: Iend;
 int: epsilon;
+int: min_zero_per_agent;
+int: min_assign_per_agent;
 bool: full_output = false;
 % full_output=false evita imprimir A*Iend asignaciones en instancias grandes.
 % La salida gigante no ayuda al solver y puede consumir mucha memoria al final.
@@ -42,14 +44,12 @@ array[AGENT, STEP] of var 0..100: opinion;
 array[AGENT] of int: snw = [100 - stubbornness[a] | a in AGENT];
 % Precalcula el peso de influencia para no repetir 100-stubbornness en cada turno.
 
-int: MIN_ZERO_PER_AGENT = 7;
-int: MIN_ASSIGN_PER_AGENT = 1;
-int: MAX_ASSIGN_PER_AGENT = min(C, Iend - MIN_ZERO_PER_AGENT);
+int: max_assign_per_agent = min(C, Iend - min_zero_per_agent);
 % Cota fuerte: por alldifferent_except_0 ningun agente puede usar mas de C contenidos.
-% Por la restriccion de ceros, tampoco puede usar mas de Iend-7.
+% Por la restriccion de ceros, tampoco puede usar mas de Iend-min_zero_per_agent.
 
-constraint assert(MAX_ASSIGN_PER_AGENT >= MIN_ASSIGN_PER_AGENT,
-    "Instancia infactible: Iend debe permitir al menos una asignacion y 7 ceros por agente.");
+constraint assert(max_assign_per_agent >= min_assign_per_agent,
+    "Instancia infactible: Iend/C no permiten las asignaciones minimas y ceros minimos por agente.");
 % Falla temprano antes de construir un arbol inutil si los parametros son imposibles.
 
 constraint forall(a in AGENT)(
@@ -64,8 +64,8 @@ constraint forall(a in AGENT)(
 % MiniZinc puede usar propagadores especializados o una descomposicion eficiente.
 
 constraint forall(a in AGENT)(
-    sum(t in TIME)(bool2int(assignment[a,t] != 0)) >= MIN_ASSIGN_PER_AGENT /\
-    sum(t in TIME)(bool2int(assignment[a,t] != 0)) <= MAX_ASSIGN_PER_AGENT
+    sum(t in TIME)(bool2int(assignment[a,t] != 0)) >= min_assign_per_agent /\
+    sum(t in TIME)(bool2int(assignment[a,t] != 0)) <= max_assign_per_agent
 );
 % Conteo directo y acotado por agente.
 % Evita crear variables auxiliares; el dominio queda restringido por cotas derivadas del problema.
@@ -126,6 +126,9 @@ solve :: int_search(
 output [
     "=== EPSILON-CONSENSO NO DIRIGIDO OPTIMIZADO ===\n",
     "A=" ++ show(A) ++ " C=" ++ show(C) ++ " Iend=" ++ show(Iend) ++ " epsilon=" ++ show(epsilon) ++ "\n",
+    "min_zero_per_agent=" ++ show(min_zero_per_agent) ++
+    " min_assign_per_agent=" ++ show(min_assign_per_agent) ++
+    " max_assign_per_agent=" ++ show(max_assign_per_agent) ++ "\n",
     "Polarizacion final: " ++ show(obj) ++ "\n",
     "Asignaciones por agente: " ++ show([sum(t in TIME)(bool2int(fix(assignment[a,t]) != 0)) | a in AGENT]) ++ "\n",
     "Opiniones finales: " ++ show([opinion[a,Iend] | a in AGENT]) ++ "\n",

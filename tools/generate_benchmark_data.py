@@ -147,6 +147,8 @@ def fixed_content_lines(
     profile: str,
     epsilon: int | None = None,
     target: int | None = None,
+    min_zero_per_agent: int | None = None,
+    min_assign_per_agent: int | None = None,
 ) -> list[str]:
     c = iend
     lines = [
@@ -161,6 +163,10 @@ def fixed_content_lines(
         lines.append(f"epsilon = {epsilon};")
     if target is not None:
         lines.append(f"target = {target};")
+    if min_zero_per_agent is not None:
+        lines.append(f"min_zero_per_agent = {min_zero_per_agent};")
+    if min_assign_per_agent is not None:
+        lines.append(f"min_assign_per_agent = {min_assign_per_agent};")
     lines.extend(
         [
             "",
@@ -281,6 +287,8 @@ def main() -> None:
                     scenario=scenario,
                     profile=profile,
                     epsilon=epsilon,
+                    min_zero_per_agent=7,
+                    min_assign_per_agent=1,
                 ),
             )
             add_manifest(
@@ -319,6 +327,8 @@ def main() -> None:
                     profile=profile,
                     epsilon=epsilon,
                     target=target,
+                    min_zero_per_agent=4,
+                    min_assign_per_agent=1,
                 ),
             )
             add_manifest(
@@ -354,6 +364,8 @@ def main() -> None:
                     iend=iend,
                     scenario=scenario,
                     profile=profile,
+                    min_zero_per_agent=3,
+                    min_assign_per_agent=1,
                 ),
             )
             add_manifest(
@@ -387,6 +399,8 @@ def main() -> None:
                     scenario=scenario,
                     profile=profile,
                     target=target,
+                    min_zero_per_agent=3,
+                    min_assign_per_agent=1,
                 ),
             )
             add_manifest(
