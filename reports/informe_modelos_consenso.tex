@@ -17,6 +17,7 @@
 \usepackage{titlesec}
 \usetikzlibrary{positioning}
 
+
 \geometry{margin=2.35cm}
 \pgfplotsset{compat=1.18}
 \hypersetup{
@@ -59,8 +60,7 @@
     {\color{paperblue}\rule{\linewidth}{1.2pt}\par}
     \vspace{0.8cm}
     {\Huge\bfseries Modeling Opinion Polarization and Content Assignment in YouTube Using Machine Learning and Optimization\par}
-    \vspace{0.45cm}
-    {\Large Boceto de informe tipo art\'iculo corto\par}
+    
     \vspace{0.8cm}
     {\color{paperblue}\rule{\linewidth}{1.2pt}\par}
     \vspace{1.8cm}
@@ -98,7 +98,7 @@ Para estudiar este problema se implement\'o una familia de modelos en MiniZinc. 
     \item Un modelo base inicial de asignaci\'on de contenido con din\'amica de opini\'on.
     \item Dos modelos sin tolerancia \(\epsilon\): uno de consenso libre y otro de consenso dirigido.
     \item Dos modelos con tolerancia \(\epsilon\) y formulaci\'on optimizada: uno para consenso libre y otro para consenso dirigido.
-    \item Cuatro variantes de b\'usqueda especializadas: dos orientadas al solver Chuffed y dos orientadas al solver Gecode, tanto para el caso libre como para el dirigido.
+    \item Dos variantes de b\'usqueda especializadas orientadas al solver Chuffed: una para consenso libre con \(\epsilon\) y otra para consenso dirigido con \(\epsilon\).
 \end{itemize}
 
 Los experimentos se realizan en MiniZinc y se eval\'uan con distintos solvers de programaci\'on con restricciones, en particular Chuffed, Gecode y OR Tools CP-SAT. Chuffed se usa como solver CP con aprendizaje de conflictos, Gecode como solver CP cl\'asico con estrategias de b\'usqueda adaptadas a variantes espec\'ificas del modelo, y OR Tools CP-SAT como backend adicional para contrastar estabilidad y escalabilidad en instancias medianas y grandes. Esta comparaci\'on es importante porque el problema combina asignaci\'on secuencial, restricciones globales, actualizaci\'on din\'amica de estados y optimizaci\'on, lo que hace que el comportamiento pr\'actico dependa de forma sensible tanto del dise\~no del modelo como del solver empleado.
@@ -152,15 +152,20 @@ La formulaci\'on est\'a inspirada en el modelo de DeGroot \cite{degroot1974}. En
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[node distance=1.6cm, >=stealth]
-    \node[draw, rounded corners, fill=papergray, minimum width=3.2cm, minimum height=1cm] (prev) {Opini\'on previa \(o_{a,t-1}\)};
-    \node[draw, rounded corners, fill=papergray, right=4.2cm of prev, minimum width=3.2cm, minimum height=1cm] (content) {Contenido \(v_{x_{a,t}}\)};
-    \node[draw, rounded corners, fill=paperteal!15, below=2.0cm of $(prev)!0.5!(content)$, minimum width=4.8cm, minimum height=1.2cm] (update) {Nueva opini\'on \(o_{a,t}\)};
+    \node[draw, rounded corners, fill=papergray, minimum width=3.8cm, minimum height=1cm] (prev) {Opini\'on previa \(o_{a,t-1}\)};
+    \node[draw, rounded corners, fill=papergray, right=4.8cm of prev, minimum width=3.8cm, minimum height=1cm] (content) {Contenido \(v_{x_{a,t}}\)};
+    \node[draw, rounded corners, fill=paperteal!15, below=2.1cm of $(prev)!0.5!(content)$, minimum width=5.0cm, minimum height=1.2cm] (update) {Nueva opini\'on \(o_{a,t}\)};
 
-    \draw[->, thick] (content) -- node[right, pos=0.5, below=5pt] {\(100-s_a\)} (update);
+    \draw[->, thick] (prev) -- node[left, pos=0.5] {\(s_a\)} (update);
+    \draw[->, thick] (content) -- node[above, pos=0.48, yshift=4pt] {\(100-s_a\)} (update);
 
-    \node[below=0.2cm of update] {\(\displaystyle o_{a,t}=\left\lfloor\frac{s_a\,o_{a,t-1}+(100-s_a)\,v_{x_{a,t}}}{100}\right\rfloor\)};
+    \node[below=0.45cm of update, align=center] {\(\displaystyle
+    o_{a,t}=
+    \left\lfloor
+    \frac{s_a\,o_{a,t-1}+(100-s_a)\,v_{x_{a,t}}}{100}
+    \right\rfloor\)};
 \end{tikzpicture}
-\caption{Adaptaci\'on del modelo de DeGroot en nuestro problema. La nueva opini\'on del agente combina su opini\'on previa y el valor ideol\'ogico del contenido recomendado, ponderados por su coeficiente de auto-influencia \(s_a\) y por la influencia externa \(100-s_a\).}
+\caption{Adaptaci\'on de la din\'amica tipo DeGroot en el modelo. La opini\'on actualizada del agente resulta de combinar su opini\'on previa con el valor ideol\'ogico del contenido recomendado, ponderados por el coeficiente de auto-influencia \(s_a\) y por la influencia externa \(100-s_a\).}
 \end{figure}
 
 La evoluci\'on de opini\'on se modela de la siguiente manera:
@@ -175,7 +180,10 @@ o_{a,t-1}, & x_{a,t}=0,\\[6pt]
 \end{cases}
 \]
 
-Aqu\'i \(o_{a,t}\) representa la opini\'on del agente \(a\) en el tiempo \(t\), \(x_{a,t}\) es el contenido asignado y \(v_{x_{a,t}}\) es el valor ideol\'ogico de ese contenido. El t\'ermino \(s_a\) es el coeficiente de auto-influencia o resistencia al cambio del agente, mientras que \(100-s_a\) representa la fuerza de la influencia externa. Si no se asigna contenido, la opini\'on se conserva. Si se asigna contenido, la nueva opini\'on es un promedio ponderado entre la opini\'on anterior y la orientaci\'on ideol\'ogica del contenido. Como el modelo trabaja con dominios enteros y usa divisi\'on entera por \(100\), el valor final se redondea hacia abajo, introduciendo un error menor que una unidad en la escala total.
+Aqu\'i \(o_{a,t}\) representa la opini\'on del agente \(a\) en el tiempo \(t\), \(x_{a,t}\) es el contenido asignado y \(v_{x_{a,t}}\) es el valor ideol\'ogico de ese contenido. El t\'ermino \(s_a\) es el coeficiente de auto-influencia o resistencia al cambio del agente, mientras que \(100-s_a\) representa la fuerza de la influencia externa. Si no se asigna contenido, la opini\'on se conserva. Si se asigna contenido, la nueva opini\'on es un promedio ponderado entre la opini\'on anterior y la orientaci\'on ideol\'ogica del contenido. 
+
+Como el modelo trabaja con dominios enteros y usa divisi\'on entera por \(100\), el valor final se redondea hacia abajo en cada actualizaci\'on. Esto introduce un error de aproximaci\'on menor que una unidad en la escala total. M\'as precisamente, el error m\'aximo por intervalo es de hasta \(0.9\) puntos de opini\'on; por consiguiente, a lo largo de \(I_{\text{end}}\) intervalos, el error acumulado puede alcanzar hasta \(0.9 \cdot I_{\text{end}}\).
+
 
 Esta adaptaci\'on permite interpretar con claridad el papel de \texttt{stubbornness[a]} en el c\'odigo. Dicho par\'ametro act\'ua como un coeficiente de auto-influencia: determina qu\'e proporci\'on de la opini\'on previa del agente se conserva en la actualizaci\'on. Si \texttt{stubbornness[a]} toma valores cercanos a \(100\), la opini\'on del agente permanece relativamente estable aun cuando reciba contenidos ideol\'ogicamente alejados de su posici\'on actual. Por el contrario, valores cercanos a \(0\) implican que la opini\'on del agente depende en mayor medida del contenido asignado. En t\'erminos conceptuales, este par\'ametro modela la resistencia al cambio del agente frente a la influencia externa ejercida por la plataforma.
 
@@ -315,7 +323,7 @@ Esta expresi\'on no describe todav\'ia la estructura fina del modelo, pero s\'i 
 
 Aunque en este trabajo no se presenta una demostraci\'on formal de complejidad para la versi\'on exacta del modelo, s\'i es razonable ubicarlo dentro de la familia de problemas de alta dificultad computacional. La formulaci\'on comparte rasgos con problemas de asignaci\'on multidimensional y con variantes del problema de la mochila con restricciones laterales, en los cuales la combinaci\'on entre selecci\'on discreta, capacidad limitada y dependencias estructurales produce un comportamiento fuertemente combinatorio \cite{martello-monaci-2018,szkaliczki2025}.
 
-Por esta raz\'on, resulta m\'as prudente afirmar que el problema exhibe comportamiento t\'ipicamente NP-hard en la pr\'actica, en lugar de declarar sin prueba formal que la formulaci\'on completa es NP-completa. Esta distinci\'on es importante desde el punto de vista acad\'emico: evita sobreafirmar resultados de complejidad que no han sido demostrados dentro del trabajo, pero al mismo tiempo reconoce con honestidad la dificultad intr\'inseca del problema.
+Por esta raz\'on, resulta m\'as prudente afirmar que el problema exhibe comportamiento t\'ipicamente NP-hard en la pr\'actica, en lugar de declarar sin prueba formal que la formulaci\'on completa es NP-completa. 
 
 \subsection{Adecuaci\'on del enfoque de programaci\'on con restricciones}
 
@@ -374,7 +382,9 @@ En varias de las formulaciones se impone una restricci\'on de ruptura de simetr\
 x_{a,t}=0 \Rightarrow x_{a,t+1}=0 \qquad \forall a,\ t<I_{\text{end}}.
 \]
 
-La motivaci\'on de esta restricci\'on es reducir soluciones equivalentes desde el punto de vista del patr\'on de intervenci\'on. Si el efecto relevante del modelo depende del conjunto y la secuencia esencial de contenidos utilizados, entonces muchas configuraciones con ceros intermedios representan variaciones que no aportan nueva informaci\'on sem\'antica, pero s\'i incrementan innecesariamente el \'arbol de b\'usqueda. Ordenar los ceros al final favorece la poda del espacio de soluciones y simplifica la exploraci\'on computacional. No obstante, esta restricci\'on debe interpretarse con cuidado, pues su validez como mera ruptura de simetr\'ia depende de qu\'e tan fuerte sea la interpretaci\'on temporal de las recomendaciones dentro del experimento.
+La motivaci\'on principal de esta restricci\'on es reducir soluciones equivalentes desde el punto de vista del patr\'on de intervenci\'on. Si el efecto relevante del modelo depende esencialmente del conjunto de contenidos utilizados y de su efecto acumulado sobre cada agente, entonces muchas configuraciones con ceros intermedios representan variaciones que no aportan nueva informaci\'on sem\'antica, pero s\'i incrementan innecesariamente el \'arbol de b\'usqueda. En ese sentido, ordenar los ceros al final favorece la poda del espacio de soluciones y simplifica la exploraci\'on computacional.
+
+Sin embargo, esta restricci\'on tambi\'en limita la interpretaci\'on temporal del modelo. En particular, elimina la posibilidad de representar escenarios en los que la plataforma decide pausar temporalmente la intervenci\'on sobre un agente mientras prioriza a otros, o casos en los que la ausencia de contenido en un intervalo forma parte de una estrategia deliberada de sincronizaci\'on con la exposici\'on de otros agentes. De forma an\'aloga, si en futuras extensiones se incorporara interacci\'on expl\'icita entre agentes o efectos cruzados entre las recomendaciones recibidas por distintos usuarios, esta restricci\'on podr\'ia dejar de ser una mera ruptura de simetr\'ia y pasar a modificar la sem\'antica del problema. Por ello, en el contexto actual debe entenderse como una decisi\'on de modelado orientada a facilitar la resoluci\'on, v\'alida mientras el modelo mantenga una din\'amica centrada en la trayectoria individual de cada agente y no en una coordinaci\'on temporal compleja entre usuarios.
 
 \subsection{Din\'amica de opini\'on}
 
@@ -428,13 +438,13 @@ Consenso dirigido sin \(\epsilon\) & Minimizar \(\Delta_{I_{\text{end}}}\) sujet
 Consenso libre con \(\epsilon\) optimizado & Minimizar \(\Delta_{I_{\text{end}}}\) sujeto a \(\Delta_{I_{\text{end}}}\leq\epsilon\). & Introduce una banda de tolerancia para el consenso y fortalece la formulaci\'on con cotas, simetr\'ia temporal y salida compacta. \\
 \addlinespace[0.5em]
 
-Consenso dirigido con \(\epsilon\) optimizado & Minimizar \(\Delta_{I_{\text{end}}}\) sujeto a una meta dirigida. & Conserva la estructura dirigida del problema y refuerza la formulaci\'on mediante decisiones de modelado orientadas a mejorar la resoluci\'on. \\
+Consenso dirigido con \(\epsilon\) optimizado & Minimizar la intervenci\'on total. & Exige que todos los agentes terminen dentro de una banda objetivo y fortalece la formulaci\'on para resolver con mayor estabilidad este criterio dirigido. \\
 \addlinespace[0.5em]
 
-B\'usqueda especializada para Chuffed & Mantener la sem\'antica del modelo libre con \(\epsilon\). & Ajusta el orden de b\'usqueda y las anotaciones del solver para mejorar la exploraci\'on del espacio de soluciones en Chuffed. \\
+B\'usqueda especializada para Chuffed (libre) & Mantener la sem\'antica del modelo libre con \(\epsilon\). & Ajusta el orden de b\'usqueda y las anotaciones del solver para mejorar la exploraci\'on del espacio de soluciones en Chuffed. \\
 \addlinespace[0.5em]
 
-B\'usqueda especializada para Gecode & Mantener la sem\'antica del modelo libre con \(\epsilon\). & Reorganiza la exploraci\'on de variables y valores para aprovechar mejor la propagaci\'on cl\'asica de Gecode. \\
+B\'usqueda especializada para Chuffed (dirigido) & Mantener la sem\'antica del modelo dirigido con \(\epsilon\). & Conserva la banda objetivo, pero modifica la estrategia de b\'usqueda para favorecer el desempe\~no del solver en el caso dirigido. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -477,15 +487,15 @@ La sem\'antica del modelo se mantiene respecto de la din\'amica original: los co
 
 \subsection{Consenso dirigido con \(\epsilon\) y formulaci\'on optimizada}
 
-La versi\'on dirigida con \(\epsilon\) mantiene la estructura del problema orientado a una meta final, pero incorpora una tolerancia expl\'icita alrededor del valor objetivo. En t\'erminos generales, esta formulaci\'on conserva el car\'acter dirigido del consenso y fortalece la resoluci\'on mediante decisiones de modelado que reducen el espacio de b\'usqueda y hacen m\'as estable la exploraci\'on computacional. Su inter\'es principal radica en estudiar c\'omo alcanzar configuraciones finales dirigidas sin depender de una coincidencia exacta punto a punto, sino admitiendo una regi\'on objetivo aceptable.
+La versi\'on dirigida con \(\epsilon\) mantiene la estructura del problema orientado a una meta final, pero incorpora una tolerancia expl\'icita alrededor del valor objetivo. En esta formulaci\'on, todos los agentes deben terminar dentro de la banda \([target-\epsilon,target+\epsilon]\), mientras que el objetivo consiste en minimizar la cantidad total de intervenciones necesarias para lograrlo. Su inter\'es principal radica en estudiar c\'omo alcanzar configuraciones finales dirigidas sin depender de una coincidencia exacta punto a punto, sino admitiendo una regi\'on objetivo aceptable.
 
 \subsection{Variantes de b\'usqueda especializadas}
 
-Adem\'as de las formulaciones conceptuales, se implementaron variantes especializadas en estrategia de b\'usqueda para el caso de consenso libre con \(\epsilon\). Estas variantes mantienen la misma sem\'antica matem\'atica del modelo optimizado, pero modifican las anotaciones de exploraci\'on del espacio de soluciones para adaptarse mejor a distintos solvers.
+Adem\'as de las formulaciones conceptuales, se implementaron variantes especializadas en estrategia de b\'usqueda para los modelos con \(\epsilon\) orientados al solver Chuffed. Estas variantes mantienen la misma sem\'antica matem\'atica de sus respectivos modelos optimizados, pero modifican las anotaciones de exploraci\'on del espacio de soluciones para mejorar el desempe\~no del solver.
 
-La variante orientada a Chuffed organiza la b\'usqueda privilegiando decisiones por agente y tiempo, junto con anotaciones como \texttt{dom\_w\_deg}, \texttt{indomain\_min} y \texttt{restart\_luby(100)}. La motivaci\'on es favorecer una exploraci\'on agresiva del espacio de b\'usqueda en presencia de aprendizaje de conflictos.
+En el caso libre, la variante especializada organiza la b\'usqueda privilegiando decisiones por agente y tiempo, junto con anotaciones como \texttt{dom\_w\_deg}, \texttt{indomain\_min} y \texttt{restart\_luby(100)}. La motivaci\'on es favorecer una exploraci\'on agresiva del espacio de b\'usqueda en presencia de aprendizaje de conflictos.
 
-La variante orientada a Gecode reorganiza la exploraci\'on para aprovechar mejor la propagaci\'on cl\'asica del solver. En este caso, se favorece el orden por tiempo y luego por agente, junto con criterios como \texttt{first\_fail} e \texttt{indomain\_min}. Esta diferencia muestra que, aunque la sem\'antica del modelo permanezca estable, la estrategia de b\'usqueda puede tener un impacto significativo en la calidad de los resultados y en el tiempo de resoluci\'on.
+En el caso dirigido, la variante correspondiente conserva la banda objetivo del modelo con \(\epsilon\), pero ajusta la estrategia de b\'usqueda para favorecer la resoluci\'on de la versi\'on dirigida bajo el mismo entorno de solver. Esta diferencia muestra que, aunque la sem\'antica del modelo permanezca estable, la estrategia de b\'usqueda puede tener un impacto significativo en la calidad de los resultados y en el tiempo de resoluci\'on.
 
 En conjunto, esta familia de modelos permite comparar tres dimensiones del problema: la formulaci\'on base frente a formulaciones de consenso, la introducci\'on de tolerancia \(\epsilon\) como mecanismo de control del objetivo final, y la influencia de la estrategia de b\'usqueda sobre el desempe\~no computacional del modelo.
 
